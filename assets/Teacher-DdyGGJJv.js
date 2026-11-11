@@ -1,0 +1,1 @@
+import{j as e,P as a}from"./index-JUS9G58r.js";function n(){return e.jsxs(a,{milestone:"M4-4 / M5-7",children:[e.jsx("h2",{children:"Mode Guru"}),e.jsx("p",{children:"Ringkasan materi, kunci jawaban, dan rekap kelas uji coba."})]})}export{n as default};

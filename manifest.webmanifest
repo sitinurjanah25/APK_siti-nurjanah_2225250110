@@ -1,0 +1,17 @@
+{
+  "name": "Kota Koordinat — Kelas 8 SMP",
+  "short_name": "Kota Koordinat",
+  "description": "Belajar Sistem Koordinat Kartesius kelas 8 SMP lewat peta kota.",
+  "lang": "id",
+  "start_url": "./",
+  "scope": "./",
+  "display": "standalone",
+  "orientation": "portrait",
+  "background_color": "#ffffff",
+  "theme_color": "#1d4ed8",
+  "icons": [
+    { "src": "icon-192.png", "sizes": "192x192", "type": "image/png", "purpose": "any" },
+    { "src": "icon-512.png", "sizes": "512x512", "type": "image/png", "purpose": "any" },
+    { "src": "icon.svg", "sizes": "any", "type": "image/svg+xml" }
+  ]
+}
