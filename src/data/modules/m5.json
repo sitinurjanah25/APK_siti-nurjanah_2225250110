@@ -1,0 +1,226 @@
+{
+  "id": "m5",
+  "title": "Posisi terhadap Titik Acuan",
+  "steps": [
+    {
+      "id": "m5-1",
+      "kind": "info",
+      "phase": "example",
+      "text": [
+        "**Bank** ada di ([x:−2], [y:5]).",
+        "Dari Alun-alun (titik O), Bank berada **2 satuan ke kiri** dan **5 satuan ke atas**."
+      ],
+      "grid": {
+        "buildings": [
+          "alun",
+          "bank"
+        ],
+        "path": [
+          [
+            0,
+            0
+          ],
+          [
+            -2,
+            0
+          ],
+          [
+            -2,
+            5
+          ]
+        ]
+      }
+    },
+    {
+      "id": "m5-2",
+      "kind": "info",
+      "phase": "example",
+      "text": [
+        "Kita juga bisa mengukur posisi dari tempat **lain**, misalnya dari Sekolah.",
+        "Posisi titik ([x:x], [y:y]) terhadap titik acuan A(a, b) adalah ([x:x − a], [y:y − b])."
+      ],
+      "grid": {
+        "range": 10,
+        "buildings": [
+          "sekolah",
+          "perpus"
+        ]
+      }
+    },
+    {
+      "id": "m5-3",
+      "kind": "info",
+      "phase": "example",
+      "text": [
+        "Posisi **Perpustakaan** (2, 6) terhadap **Sekolah** (−4, 3):",
+        "([x:2 − (−4)], [y:6 − 3]) = ([x:6], [y:3]).",
+        "Artinya dari Sekolah: **6 satuan ke kanan** dan **3 satuan ke atas**."
+      ],
+      "grid": {
+        "range": 10,
+        "buildings": [
+          "sekolah",
+          "perpus"
+        ],
+        "path": [
+          [
+            -4,
+            3
+          ],
+          [
+            2,
+            3
+          ],
+          [
+            2,
+            6
+          ]
+        ]
+      }
+    },
+    {
+      "id": "m5-4",
+      "kind": "relative",
+      "phase": "completion",
+      "text": [
+        "Posisi **Rumah Sakit** (5, 4) terhadap **Bank** (−2, 5)?",
+        "Jejak dari Bank sudah ditampilkan. Isi (mendatar, tegak)."
+      ],
+      "point": [
+        5,
+        4
+      ],
+      "ref": [
+        -2,
+        5
+      ],
+      "grid": {
+        "range": 10,
+        "buildings": [
+          "bank",
+          "rs"
+        ],
+        "path": [
+          [
+            -2,
+            5
+          ],
+          [
+            5,
+            5
+          ],
+          [
+            5,
+            4
+          ]
+        ]
+      }
+    },
+    {
+      "id": "m5-5",
+      "kind": "relative",
+      "phase": "independent",
+      "text": [
+        "Posisi **Terminal** (6, −3) terhadap **Rumah Sakit** (5, 4)? Isi (mendatar, tegak)."
+      ],
+      "point": [
+        6,
+        -3
+      ],
+      "ref": [
+        5,
+        4
+      ],
+      "grid": {
+        "range": 10,
+        "buildings": [
+          "rs",
+          "terminal"
+        ]
+      }
+    },
+    {
+      "id": "m5-6",
+      "kind": "relative",
+      "phase": "independent",
+      "text": [
+        "Posisi **Mall** (−6, −2) terhadap **Pos Polisi** (−3, −5)? Isi (mendatar, tegak)."
+      ],
+      "point": [
+        -6,
+        -2
+      ],
+      "ref": [
+        -3,
+        -5
+      ],
+      "grid": {
+        "range": 10,
+        "buildings": [
+          "polisi",
+          "mall"
+        ]
+      }
+    },
+    {
+      "id": "m5-7",
+      "kind": "plot",
+      "phase": "independent",
+      "text": [
+        "**Pasar** akan dibangun 3 satuan ke **kiri** dan 2 satuan ke **bawah** dari **Bank** (−2, 5).",
+        "Ketuk letak Pasar."
+      ],
+      "target": [
+        -5,
+        3
+      ],
+      "grid": {
+        "buildings": [
+          "bank"
+        ]
+      },
+      "hints": [
+        "Mulai dari Bank, bukan dari titik O.",
+        "Ke kiri berarti x berkurang 3. Ke bawah berarti y berkurang 2.",
+        {
+          "text": "Lihat jejak dari Bank.",
+          "path": [
+            [
+              -2,
+              5
+            ],
+            [
+              -5,
+              5
+            ],
+            [
+              -5,
+              3
+            ]
+          ]
+        }
+      ]
+    },
+    {
+      "id": "m5-8",
+      "kind": "reflect",
+      "text": [
+        "Hal yang paling penting kuingat hari ini adalah…"
+      ],
+      "options": [
+        {
+          "id": "acuan",
+          "text": "Posisi bisa diukur dari titik mana saja"
+        },
+        {
+          "id": "rumus-relatif",
+          "text": "Posisi terhadap A(a, b) = (x − a, y − b)"
+        },
+        {
+          "id": "mulai-acuan",
+          "text": "Mulai berjalan dari titik acuan"
+        }
+      ]
+    }
+  ]
+}

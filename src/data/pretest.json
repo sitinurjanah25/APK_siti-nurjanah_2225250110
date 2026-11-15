@@ -1,0 +1,35 @@
+{
+  "passScore": 3,
+  "questions": [
+    {
+      "id": "pre-1",
+      "text": "Di garis bilangan, −3 berada di sebelah … dari 0.",
+      "options": ["kiri", "kanan"],
+      "correct": 0
+    },
+    {
+      "id": "pre-2",
+      "text": "Mana yang lebih jauh dari 0?",
+      "options": ["−5", "3"],
+      "correct": 0
+    },
+    {
+      "id": "pre-3",
+      "text": "Berapa jarak −4 ke 0?",
+      "options": ["−4", "4", "0"],
+      "correct": 1
+    },
+    {
+      "id": "pre-4",
+      "text": "Garis mendatar itu seperti…",
+      "options": ["tiang bendera", "permukaan meja"],
+      "correct": 1
+    },
+    {
+      "id": "pre-5",
+      "text": "Dari 2, mundur 5 langkah. Sampai di angka berapa?",
+      "options": ["3", "−3", "7"],
+      "correct": 1
+    }
+  ]
+}

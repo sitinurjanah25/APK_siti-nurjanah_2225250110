@@ -1,0 +1,112 @@
+.wrap>*+* {
+  margin-top: var(--space-3)
+}
+
+.badge {
+  display: inline-block;
+  margin: 0;
+  padding: 2px var(--space-2);
+  border-radius: 999px;
+  background: var(--surface);
+  border: 1px solid var(--line-strong);
+  color: var(--muted);
+  font-size: var(--fs-small);
+  font-weight: 700
+}
+
+.instruction {
+  margin: 0;
+  padding-left: 1.2em;
+  font-size: var(--fs-small)
+}
+
+.stage {
+  position: relative;
+  width: 100%;
+  max-width: 560px;
+  aspect-ratio: 1 / 1;
+  max-height: 70vh;
+  margin-inline: auto;
+  background: #c7d8e8;
+  border-radius: var(--radius)
+}
+
+.zoom {
+  position: absolute;
+  top: var(--space-2);
+  right: var(--space-2);
+  display: grid;
+  gap: var(--space-2)
+}
+
+.zoomBtn {
+  width: var(--touch);
+  height: var(--touch);
+  border: 2px solid var(--line-strong);
+  border-radius: var(--radius);
+  background: #f1f5f9e6;
+  color: var(--ink);
+  font-size: 1.5rem;
+  font-weight: 700;
+  line-height: 1;
+  cursor: pointer
+}
+
+.loading {
+  display: grid;
+  place-items: center;
+  height: 100%;
+  margin: 0;
+  color: var(--muted)
+}
+
+.views {
+  display: flex;
+  gap: var(--space-2);
+  flex-wrap: wrap
+}
+
+.views>* {
+  flex: 1 1 6.5rem;
+  padding-inline: var(--space-2)
+}
+
+.views [aria-pressed=true] {
+  border-color: var(--ink);
+  background: var(--surface)
+}
+
+.name {
+  font-size: 1.125rem;
+  margin-bottom: var(--space-2)
+}
+
+.facts {
+  margin: 0;
+  padding-left: 1.2em
+}
+
+.summary {
+  min-height: var(--touch);
+  display: flex;
+  align-items: center;
+  font-weight: 700;
+  cursor: pointer
+}
+
+.list {
+  list-style: none;
+  margin: var(--space-2) 0 0;
+  padding: 0
+}
+
+.listBtn {
+  width: 100%;
+  min-height: var(--touch);
+  border: 0;
+  border-bottom: 1px solid var(--line);
+  background: transparent;
+  text-align: left;
+  font: inherit;
+  cursor: pointer
+}

@@ -1,0 +1,31 @@
+.group {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--space-2)
+}
+
+.btn {
+  width: var(--touch);
+  height: var(--touch);
+  border: 2px solid var(--line-strong);
+  border-radius: var(--radius);
+  background: var(--bg);
+  color: var(--ink);
+  font-size: 1.5rem;
+  font-weight: 700;
+  line-height: 1;
+  cursor: pointer
+}
+
+.btn:disabled {
+  opacity: .4;
+  cursor: default
+}
+
+.range {
+  min-width: 5.5em;
+  text-align: center;
+  color: var(--muted);
+  font-size: var(--fs-small);
+  font-variant-numeric: tabular-nums
+}

@@ -1,0 +1,210 @@
+{
+  "id": "m3",
+  "title": "Kuadran & Tanda Negatif",
+  "steps": [
+    {
+      "id": "m3-1",
+      "kind": "info",
+      "phase": "example",
+      "text": [
+        "Sekolah ada di ([x:−4], [y:3]).",
+        "x negatif → jalan **4 langkah ke kiri**. Lalu y positif → **3 langkah ke atas**."
+      ],
+      "grid": {
+        "buildings": [
+          "alun",
+          "sekolah"
+        ],
+        "path": [
+          [
+            0,
+            0
+          ],
+          [
+            -4,
+            0
+          ],
+          [
+            -4,
+            3
+          ]
+        ]
+      }
+    },
+    {
+      "id": "m3-2",
+      "kind": "info",
+      "text": [
+        "Kedua sumbu membagi bidang menjadi 4 bagian bernama **kuadran**.",
+        "I di kanan-atas, II di kiri-atas, III di kiri-bawah, IV di kanan-bawah."
+      ],
+      "grid": {
+        "showQuadrants": true
+      }
+    },
+    {
+      "id": "m3-3",
+      "kind": "info",
+      "text": [
+        "Tanda (x, y) di setiap kuadran:",
+        "**I** (+, +) · **II** (−, +) · **III** (−, −) · **IV** (+, −)",
+        "Titik yang tepat di sumbu **tidak** termasuk kuadran mana pun."
+      ],
+      "grid": {
+        "showQuadrants": true
+      }
+    },
+    {
+      "id": "m3-4",
+      "kind": "plot",
+      "phase": "completion",
+      "text": [
+        "Letakkan **Pos Polisi** di ([x:−3], [y:−5]).",
+        "Jejak biru sudah dibuat: 3 langkah ke kiri. Lanjutkan 5 langkah ke bawah."
+      ],
+      "target": [
+        -3,
+        -5
+      ],
+      "grid": {
+        "path": [
+          [
+            0,
+            0
+          ],
+          [
+            -3,
+            0
+          ]
+        ]
+      }
+    },
+    {
+      "id": "m3-5",
+      "kind": "plot",
+      "phase": "independent",
+      "text": [
+        "Letakkan titik di ([x:4], [y:−2])."
+      ],
+      "target": [
+        4,
+        -2
+      ],
+      "grid": {}
+    },
+    {
+      "id": "m3-6",
+      "kind": "plot",
+      "phase": "independent",
+      "text": [
+        "Letakkan titik di ([x:−2], [y:−1])."
+      ],
+      "target": [
+        -2,
+        -1
+      ],
+      "grid": {}
+    },
+    {
+      "id": "m3-7",
+      "kind": "quadrant",
+      "phase": "independent",
+      "text": [
+        "**Mall** ada di ([x:−6], [y:−2]). Di kuadran berapa?"
+      ],
+      "point": [
+        -6,
+        -2
+      ],
+      "grid": {
+        "range": 10,
+        "buildings": [
+          "mall"
+        ],
+        "showGuides": false
+      }
+    },
+    {
+      "id": "m3-8",
+      "kind": "quadrant",
+      "phase": "independent",
+      "text": [
+        "Titik ([x:3], [y:−4]) ada di kuadran berapa?"
+      ],
+      "point": [
+        3,
+        -4
+      ],
+      "grid": {
+        "showGuides": false
+      }
+    },
+    {
+      "id": "m3-9",
+      "kind": "quadrant",
+      "phase": "independent",
+      "text": [
+        "**Masjid** ada di ([x:−7], [y:0]). Di kuadran berapa?"
+      ],
+      "point": [
+        -7,
+        0
+      ],
+      "grid": {
+        "range": 10,
+        "buildings": [
+          "masjid"
+        ],
+        "showGuides": false
+      }
+    },
+    {
+      "id": "m3-10",
+      "kind": "choice",
+      "phase": "independent",
+      "text": [
+        "Titik dengan x **negatif** dan y **positif** selalu ada di kuadran…"
+      ],
+      "options": [
+        {
+          "text": "I",
+          "feedback": "Belum tepat. Kuadran I berisi x positif dan y positif."
+        },
+        {
+          "text": "II",
+          "correct": true,
+          "feedback": "Tepat! Kuadran II: kiri (x negatif) dan atas (y positif)."
+        },
+        {
+          "text": "III",
+          "feedback": "Belum tepat. Kuadran III berisi x negatif dan y negatif."
+        },
+        {
+          "text": "IV",
+          "feedback": "Belum tepat. Kuadran IV berisi x positif dan y negatif."
+        }
+      ]
+    },
+    {
+      "id": "m3-11",
+      "kind": "reflect",
+      "text": [
+        "Hal yang paling penting kuingat hari ini adalah…"
+      ],
+      "options": [
+        {
+          "id": "negatif-arah",
+          "text": "Tanda negatif berarti ke kiri atau ke bawah"
+        },
+        {
+          "id": "tanda-kuadran",
+          "text": "Tanda x dan y menentukan kuadran"
+        },
+        {
+          "id": "di-sumbu",
+          "text": "Titik di sumbu tidak termasuk kuadran"
+        }
+      ]
+    }
+  ]
+}

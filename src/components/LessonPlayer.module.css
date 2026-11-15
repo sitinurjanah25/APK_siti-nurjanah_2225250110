@@ -1,0 +1,118 @@
+.wrap>*+* {
+  margin-top: var(--space-3)
+}
+
+.progress {
+  display: flex;
+  justify-content: space-between;
+  align-items: baseline;
+  gap: var(--space-2)
+}
+
+.moduleTitle {
+  font-weight: 700;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap
+}
+
+.bar {
+  height: 6px;
+  border-radius: 3px;
+  background: var(--line);
+  overflow: hidden
+}
+
+.bar span {
+  display: block;
+  height: 100%;
+  background: var(--x);
+  transition: width .2s ease-out
+}
+
+.step>*+* {
+  margin-top: var(--space-4)
+}
+
+.text p {
+  font-size: 1.0625rem
+}
+
+.text p:last-child {
+  margin-bottom: 0
+}
+
+.gridBox {
+  width: 100%;
+  max-width: 440px;
+  aspect-ratio: 1 / 1;
+  margin-inline: auto
+}
+
+.selected {
+  margin: 0;
+  text-align: center
+}
+
+.typeIn summary {
+  min-height: var(--touch);
+  display: flex;
+  align-items: center;
+  color: var(--x);
+  font-weight: 600;
+  cursor: pointer
+}
+
+.typeIn[open] summary {
+  margin-bottom: var(--space-3)
+}
+
+.hints {
+  list-style: none;
+  margin: 0;
+  padding: var(--space-3) var(--space-4);
+  border-radius: var(--radius);
+  background: var(--surface);
+  border: 1px dashed var(--line-strong)
+}
+
+.hints li+li {
+  margin-top: var(--space-2)
+}
+
+.hintLevel {
+  font-weight: 800;
+  font-size: var(--fs-small)
+}
+
+.actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--space-2)
+}
+
+.actions>* {
+  flex: 1 1 8rem
+}
+
+.finish {
+  text-align: center
+}
+
+.finishIcon {
+  width: 56px;
+  height: 56px;
+  margin: 0 auto var(--space-3);
+  border-radius: 50%;
+  background: var(--ok);
+  color: #fff;
+  font-size: 2rem;
+  font-weight: 800;
+  line-height: 56px
+}
+
+.finishActions {
+  display: grid;
+  gap: var(--space-2);
+  margin-top: var(--space-4)
+}

@@ -1,0 +1,571 @@
+{
+  "base": [
+    "alun",
+    "sekolah",
+    "masjid",
+    "taman"
+  ],
+  "missions": [
+    {
+      "id": "misi1",
+      "title": "Membangun Pusat Kota",
+      "summary": "Letakkan Rumah Sakit, Perpustakaan, dan Bank",
+      "builds": [
+        "rs",
+        "perpus",
+        "bank"
+      ],
+      "steps": [
+        {
+          "id": "misi1-1",
+          "kind": "info",
+          "text": [
+            "Kota kita baru punya **Alun-alun** di titik O.",
+            "Ayo bangun pusat kota! Ingat: jalan **mendatar dulu**, baru **naik/turun**."
+          ],
+          "grid": {
+            "range": 10,
+            "buildings": [
+              "alun",
+              "sekolah",
+              "masjid",
+              "taman"
+            ]
+          }
+        },
+        {
+          "id": "misi1-2",
+          "kind": "plot",
+          "phase": "independent",
+          "text": [
+            "Letakkan **Rumah Sakit** di ([x:5], [y:4])."
+          ],
+          "target": [
+            5,
+            4
+          ],
+          "grid": {
+            "range": 10,
+            "buildings": [
+              "alun",
+              "sekolah",
+              "masjid",
+              "taman"
+            ]
+          }
+        },
+        {
+          "id": "misi1-3",
+          "kind": "plot",
+          "phase": "independent",
+          "text": [
+            "Letakkan **Perpustakaan** di ([x:2], [y:6])."
+          ],
+          "target": [
+            2,
+            6
+          ],
+          "grid": {
+            "range": 10,
+            "buildings": [
+              "alun",
+              "sekolah",
+              "masjid",
+              "taman",
+              "rs"
+            ]
+          }
+        },
+        {
+          "id": "misi1-4",
+          "kind": "plot",
+          "phase": "independent",
+          "text": [
+            "Letakkan **Bank** di ([x:−2], [y:5])."
+          ],
+          "target": [
+            -2,
+            5
+          ],
+          "grid": {
+            "range": 10,
+            "buildings": [
+              "alun",
+              "sekolah",
+              "masjid",
+              "taman",
+              "rs",
+              "perpus"
+            ]
+          }
+        }
+      ]
+    },
+    {
+      "id": "misi2",
+      "title": "Kota Meluas ke Selatan",
+      "summary": "Letakkan Pos Polisi, Mall, Terminal, dan Pom Bensin",
+      "builds": [
+        "polisi",
+        "mall",
+        "terminal",
+        "spbu"
+      ],
+      "steps": [
+        {
+          "id": "misi2-1",
+          "kind": "info",
+          "text": [
+            "Kota tumbuh ke **selatan** (bawah sumbu-X).",
+            "Di bawah sumbu-X, nilai y **negatif**. Di kiri sumbu-Y, nilai x **negatif**."
+          ],
+          "grid": {
+            "range": 10,
+            "buildings": [
+              "alun",
+              "sekolah",
+              "masjid",
+              "taman",
+              "rs",
+              "perpus",
+              "bank"
+            ],
+            "showQuadrants": true
+          }
+        },
+        {
+          "id": "misi2-2",
+          "kind": "plot",
+          "phase": "independent",
+          "text": [
+            "Letakkan **Pos Polisi** di ([x:−3], [y:−5])."
+          ],
+          "target": [
+            -3,
+            -5
+          ],
+          "grid": {
+            "range": 10,
+            "buildings": [
+              "alun",
+              "sekolah",
+              "masjid",
+              "taman",
+              "rs",
+              "perpus",
+              "bank"
+            ]
+          }
+        },
+        {
+          "id": "misi2-3",
+          "kind": "plot",
+          "phase": "independent",
+          "text": [
+            "Letakkan **Mall** di ([x:−6], [y:−2])."
+          ],
+          "target": [
+            -6,
+            -2
+          ],
+          "grid": {
+            "range": 10,
+            "buildings": [
+              "alun",
+              "sekolah",
+              "masjid",
+              "taman",
+              "rs",
+              "perpus",
+              "bank",
+              "polisi"
+            ]
+          }
+        },
+        {
+          "id": "misi2-4",
+          "kind": "plot",
+          "phase": "independent",
+          "text": [
+            "Letakkan **Terminal** di ([x:6], [y:−3])."
+          ],
+          "target": [
+            6,
+            -3
+          ],
+          "grid": {
+            "range": 10,
+            "buildings": [
+              "alun",
+              "sekolah",
+              "masjid",
+              "taman",
+              "rs",
+              "perpus",
+              "bank",
+              "polisi",
+              "mall"
+            ]
+          }
+        },
+        {
+          "id": "misi2-5",
+          "kind": "plot",
+          "phase": "independent",
+          "text": [
+            "Letakkan **Pom Bensin** di ([x:4], [y:−6])."
+          ],
+          "target": [
+            4,
+            -6
+          ],
+          "grid": {
+            "range": 10,
+            "buildings": [
+              "alun",
+              "sekolah",
+              "masjid",
+              "taman",
+              "rs",
+              "perpus",
+              "bank",
+              "polisi",
+              "mall",
+              "terminal"
+            ]
+          }
+        }
+      ]
+    },
+    {
+      "id": "misi3",
+      "title": "Petugas Pemetaan",
+      "summary": "Tulis koordinat 4 bangunan yang sudah ada",
+      "builds": [],
+      "steps": [
+        {
+          "id": "misi3-1",
+          "kind": "info",
+          "text": [
+            "Kamu menjadi **petugas pemetaan** kota.",
+            "Tugasmu: menulis koordinat bangunan. Tulis **x dulu**, baru **y**."
+          ],
+          "grid": {
+            "range": 10,
+            "buildings": [
+              "alun",
+              "sekolah",
+              "masjid",
+              "taman",
+              "terminal"
+            ]
+          }
+        },
+        {
+          "id": "misi3-2",
+          "kind": "read",
+          "phase": "independent",
+          "text": [
+            "Tuliskan koordinat **Sekolah**."
+          ],
+          "target": [
+            -4,
+            3
+          ],
+          "grid": {
+            "range": 10,
+            "buildings": [
+              "alun",
+              "sekolah"
+            ]
+          }
+        },
+        {
+          "id": "misi3-3",
+          "kind": "read",
+          "phase": "independent",
+          "text": [
+            "Tuliskan koordinat **Taman**."
+          ],
+          "target": [
+            0,
+            -4
+          ],
+          "grid": {
+            "range": 10,
+            "buildings": [
+              "alun",
+              "taman"
+            ]
+          }
+        },
+        {
+          "id": "misi3-4",
+          "kind": "read",
+          "phase": "independent",
+          "text": [
+            "Tuliskan koordinat **Terminal**."
+          ],
+          "target": [
+            6,
+            -3
+          ],
+          "grid": {
+            "range": 10,
+            "buildings": [
+              "alun",
+              "terminal"
+            ]
+          }
+        },
+        {
+          "id": "misi3-5",
+          "kind": "read",
+          "phase": "independent",
+          "text": [
+            "Tuliskan koordinat **Masjid**."
+          ],
+          "target": [
+            -7,
+            0
+          ],
+          "grid": {
+            "range": 10,
+            "buildings": [
+              "alun",
+              "masjid"
+            ]
+          }
+        }
+      ]
+    },
+    {
+      "id": "misi4",
+      "title": "Seberapa Jauh dari Jalan?",
+      "summary": "Ambulans menuju Jalan Utama Mendatar",
+      "builds": [],
+      "steps": [
+        {
+          "id": "misi4-1",
+          "kind": "info",
+          "text": [
+            "**Sumbu-X** adalah **Jalan Utama Mendatar** kota.",
+            "Ambulans harus mencapai jalan itu secepatnya. Jarak ke sumbu-X dilihat dari **y**."
+          ],
+          "grid": {
+            "range": 10,
+            "buildings": [
+              "rs",
+              "terminal"
+            ]
+          }
+        },
+        {
+          "id": "misi4-2",
+          "kind": "distance",
+          "phase": "independent",
+          "text": [
+            "**Rumah Sakit** ada di ([x:5], [y:4]).",
+            "Berapa blok jaraknya ke Jalan Utama Mendatar (**sumbu-X**)?"
+          ],
+          "point": [
+            5,
+            4
+          ],
+          "axis": "X",
+          "grid": {
+            "range": 10,
+            "buildings": [
+              "rs"
+            ]
+          }
+        },
+        {
+          "id": "misi4-3",
+          "kind": "distance",
+          "phase": "independent",
+          "text": [
+            "**Terminal** ada di ([x:6], [y:−3]).",
+            "Berapa blok jaraknya ke Jalan Utama Mendatar (**sumbu-X**)?"
+          ],
+          "point": [
+            6,
+            -3
+          ],
+          "axis": "X",
+          "grid": {
+            "range": 10,
+            "buildings": [
+              "terminal"
+            ]
+          }
+        },
+        {
+          "id": "misi4-4",
+          "kind": "choice",
+          "phase": "independent",
+          "text": [
+            "Mana yang **lebih dekat** ke Jalan Utama Mendatar?"
+          ],
+          "options": [
+            {
+              "text": "Terminal, karena jaraknya 3 blok",
+              "correct": true,
+              "feedback": "Tepat! Terminal 3 blok, Rumah Sakit 4 blok. Jadi Terminal lebih dekat."
+            },
+            {
+              "text": "Rumah Sakit, karena jaraknya 4 blok",
+              "feedback": "Belum tepat. 4 blok lebih jauh daripada 3 blok."
+            },
+            {
+              "text": "Terminal, karena x-nya 6",
+              "feedback": "Jawabannya Terminal, tapi alasannya belum tepat. Jarak ke sumbu-X dilihat dari y, bukan x."
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "misi5",
+      "title": "Pasar Baru",
+      "summary": "Bangun Pasar dari posisi Bank",
+      "builds": [],
+      "steps": [
+        {
+          "id": "misi5-1",
+          "kind": "plot",
+          "phase": "independent",
+          "text": [
+            "**Pasar** akan dibangun **3 blok ke kiri** dan **2 blok ke bawah** dari **Bank** ([x:−2], [y:5]).",
+            "Ketuk letak Pasar."
+          ],
+          "target": [
+            -5,
+            3
+          ],
+          "grid": {
+            "range": 10,
+            "buildings": [
+              "alun",
+              "bank"
+            ]
+          },
+          "hints": [
+            "Mulai dari Bank, bukan dari titik O.",
+            "Ke kiri berarti x berkurang 3. Ke bawah berarti y berkurang 2.",
+            {
+              "text": "Dari Bank jalan 3 ke kiri, lalu 2 ke bawah.",
+              "path": [
+                [
+                  -2,
+                  5
+                ],
+                [
+                  -5,
+                  5
+                ],
+                [
+                  -5,
+                  3
+                ]
+              ]
+            }
+          ]
+        },
+        {
+          "id": "misi5-2",
+          "kind": "choice",
+          "phase": "independent",
+          "text": [
+            "Pasar ada di ([x:−5], [y:3]). Pasar ada di kuadran berapa?"
+          ],
+          "options": [
+            {
+              "text": "Kuadran II",
+              "correct": true,
+              "feedback": "Tepat! x negatif (kiri) dan y positif (atas)."
+            },
+            {
+              "text": "Kuadran I",
+              "feedback": "Belum tepat. x = −5 berarti di kiri sumbu-Y."
+            },
+            {
+              "text": "Kuadran III",
+              "feedback": "Belum tepat. y = 3 berarti di atas sumbu-X."
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "misi6",
+      "title": "Rute Kurir",
+      "summary": "Petunjuk arah dari Sekolah ke Perpustakaan",
+      "builds": [],
+      "steps": [
+        {
+          "id": "misi6-1",
+          "kind": "info",
+          "text": [
+            "Kurir mengantar paket dari **Sekolah** ke **Perpustakaan**.",
+            "Kurir hanya boleh lewat jalan **mendatar** dan **tegak**."
+          ],
+          "grid": {
+            "range": 10,
+            "buildings": [
+              "sekolah",
+              "perpus"
+            ]
+          }
+        },
+        {
+          "id": "misi6-2",
+          "kind": "relative",
+          "phase": "independent",
+          "text": [
+            "**Sekolah** di ([x:−4], [y:3]). **Perpustakaan** di ([x:2], [y:6]).",
+            "Posisi Perpustakaan terhadap Sekolah? Isi (mendatar, tegak)."
+          ],
+          "point": [
+            2,
+            6
+          ],
+          "ref": [
+            -4,
+            3
+          ],
+          "grid": {
+            "range": 10,
+            "buildings": [
+              "sekolah",
+              "perpus"
+            ]
+          }
+        },
+        {
+          "id": "misi6-3",
+          "kind": "choice",
+          "phase": "independent",
+          "text": [
+            "Petunjuk arah mana yang benar untuk kurir?"
+          ],
+          "options": [
+            {
+              "text": "6 blok ke kanan, lalu 3 blok ke atas",
+              "correct": true,
+              "feedback": "Tepat! (6, 3): 6 ke kanan, lalu 3 ke atas."
+            },
+            {
+              "text": "3 blok ke kanan, lalu 6 blok ke atas",
+              "feedback": "Belum tepat. Angka pertama (6) untuk arah mendatar."
+            },
+            {
+              "text": "6 blok ke kiri, lalu 3 blok ke bawah",
+              "feedback": "Belum tepat. Itu arah dari Perpustakaan ke Sekolah."
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}

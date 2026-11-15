@@ -1,0 +1,173 @@
+{
+  "id": "m2",
+  "title": "Membaca & Memplot Titik",
+  "steps": [
+    {
+      "id": "m2-1",
+      "kind": "info",
+      "text": [
+        "Letak sebuah tempat ditulis sebagai koordinat ([x:x], [y:y]).",
+        "Aturannya: dari titik O, **jalan mendatar dulu** sejauh [x:x], **baru naik/turun** sejauh [y:y]."
+      ],
+      "grid": {
+        "buildings": [
+          "alun"
+        ]
+      }
+    },
+    {
+      "id": "m2-2",
+      "kind": "info",
+      "phase": "example",
+      "text": [
+        "Rumah Sakit ada di ([x:5], [y:4]).",
+        "Dari O: jalan **5 langkah ke kanan** (biru), lalu **4 langkah ke atas** (oranye)."
+      ],
+      "grid": {
+        "buildings": [
+          "alun",
+          "rs"
+        ],
+        "path": [
+          [
+            0,
+            0
+          ],
+          [
+            5,
+            0
+          ],
+          [
+            5,
+            4
+          ]
+        ]
+      }
+    },
+    {
+      "id": "m2-3",
+      "kind": "plot",
+      "phase": "completion",
+      "text": [
+        "Letakkan titik di ([x:2], [y:5]).",
+        "Jejak biru sudah dibuat: 2 langkah ke kanan. Lanjutkan naik 5 langkah, lalu ketuk titiknya."
+      ],
+      "target": [
+        2,
+        5
+      ],
+      "grid": {
+        "path": [
+          [
+            0,
+            0
+          ],
+          [
+            2,
+            0
+          ]
+        ]
+      }
+    },
+    {
+      "id": "m2-4",
+      "kind": "plot",
+      "phase": "independent",
+      "text": [
+        "Letakkan titik di ([x:3], [y:1])."
+      ],
+      "target": [
+        3,
+        1
+      ],
+      "grid": {}
+    },
+    {
+      "id": "m2-5",
+      "kind": "plot",
+      "phase": "independent",
+      "text": [
+        "Letakkan titik di ([x:1], [y:3])."
+      ],
+      "target": [
+        1,
+        3
+      ],
+      "grid": {}
+    },
+    {
+      "id": "m2-6",
+      "kind": "plot",
+      "phase": "independent",
+      "text": [
+        "Letakkan titik di ([x:4], [y:4])."
+      ],
+      "target": [
+        4,
+        4
+      ],
+      "grid": {}
+    },
+    {
+      "id": "m2-7",
+      "kind": "read",
+      "phase": "independent",
+      "text": [
+        "Tuliskan koordinat **Rumah Sakit**."
+      ],
+      "target": [
+        5,
+        4
+      ],
+      "grid": {
+        "buildings": [
+          "rs"
+        ]
+      }
+    },
+    {
+      "id": "m2-8",
+      "kind": "choice",
+      "phase": "independent",
+      "text": [
+        "Mengapa (1, 3) dan (3, 1) **tidak** sama letaknya?"
+      ],
+      "options": [
+        {
+          "text": "Angka pertama selalu mendatar (x), angka kedua naik/turun (y)",
+          "correct": true,
+          "feedback": "Tepat! (1, 3): 1 ke kanan lalu 3 ke atas. (3, 1): 3 ke kanan lalu 1 ke atas."
+        },
+        {
+          "text": "Sebenarnya letaknya sama",
+          "feedback": "Belum tepat. Coba plot keduanya di Bidang Bebas: letaknya berbeda."
+        },
+        {
+          "text": "Karena angka yang lebih besar ditulis duluan",
+          "feedback": "Belum tepat. Urutannya selalu (x, y), bukan dari besar ke kecil."
+        }
+      ]
+    },
+    {
+      "id": "m2-9",
+      "kind": "reflect",
+      "text": [
+        "Hal yang paling penting kuingat hari ini adalah…"
+      ],
+      "options": [
+        {
+          "id": "x-dulu",
+          "text": "x dulu (mendatar), baru y (naik/turun)"
+        },
+        {
+          "id": "urutan",
+          "text": "(1, 3) dan (3, 1) berbeda letaknya"
+        },
+        {
+          "id": "dari-o",
+          "text": "Selalu mulai menghitung dari titik O"
+        }
+      ]
+    }
+  ]
+}

@@ -1,0 +1,123 @@
+{
+  "levels": [
+    {
+      "id": "L1",
+      "number": 1,
+      "title": "Bidang 2D",
+      "tagline": "Sumbu X, sumbu Y, dan Kuadran I–IV",
+      "intro": "Pasang rumah dan baca titik di bidang 2D. Ingat: (x, y) = mendatar dulu, baru naik/turun.",
+      "seconds": 45,
+      "challenges": [
+        {
+          "id": "L1-1",
+          "kind": "plot2d",
+          "text": "Pasang **rumah** di ([x:3], [y:2]). Ketuk titiknya di grid.",
+          "target": [3, 2]
+        },
+        {
+          "id": "L1-2",
+          "kind": "plot2d",
+          "text": "Pasang **rumah** di ([x:−4], [y:1]).",
+          "target": [-4, 1]
+        },
+        {
+          "id": "L1-3",
+          "kind": "quadrant",
+          "text": "Titik ([x:−3], [y:−5]) ada di mana?",
+          "point": [-3, -5]
+        },
+        {
+          "id": "L1-4",
+          "kind": "read2d",
+          "text": "Ada rumah di grid. Tulis koordinatnya (x, y).",
+          "point": [5, -2]
+        },
+        {
+          "id": "L1-5",
+          "kind": "plot2d",
+          "text": "Pasang **rumah** di ([x:0], [y:−3]).",
+          "target": [0, -3]
+        },
+        {
+          "id": "L1-6",
+          "kind": "quadrant",
+          "text": "Titik ([x:4], [y:0]) ada di mana?",
+          "point": [4, 0]
+        }
+      ]
+    },
+    {
+      "id": "L2",
+      "number": 2,
+      "title": "Masuk Ruang 3D",
+      "tagline": "Tambah sumbu Z untuk ketinggian",
+      "intro": "Sekarang ada sumbu ketiga: **sumbu Z** (hijau) untuk ketinggian. Titik ditulis (x, y, z). Putar kamera untuk melihat dari segala arah.",
+      "seconds": 60,
+      "challenges": [
+        {
+          "id": "L2-1",
+          "kind": "choice",
+          "text": "Di ruang 3D ada **sumbu Z**. Sumbu Z menunjukkan…",
+          "options": [
+            { "text": "ketinggian (naik/turun)", "correct": true },
+            { "text": "jarak ke kanan/kiri" },
+            { "text": "jarak ke depan/belakang" }
+          ]
+        },
+        {
+          "id": "L2-2",
+          "kind": "read3d",
+          "text": "Rumah ini menempel di lantai. Tulis koordinatnya (x, y, z).",
+          "point": [2, 3, 0]
+        },
+        {
+          "id": "L2-3",
+          "kind": "read3d",
+          "text": "Rumah ini melayang. Ikuti garis bantu, lalu tulis (x, y, z).",
+          "point": [3, 1, 2]
+        },
+        {
+          "id": "L2-4",
+          "kind": "choice",
+          "text": "Titik (4, 2, 0) terletak di…",
+          "options": [
+            { "text": "lantai (bidang XY), karena z = 0", "correct": true },
+            { "text": "sumbu Z, karena angkanya ada 3" },
+            { "text": "sumbu X, karena x = 4" }
+          ]
+        },
+        {
+          "id": "L2-5",
+          "kind": "read3d",
+          "text": "Tulis koordinat rumah ini (x, y, z). Perhatikan tanda x!",
+          "point": [-2, 4, 3]
+        },
+        {
+          "id": "L2-6",
+          "kind": "choice",
+          "text": "Rumah A di (1, 2, 5). Rumah B di (1, 2, 1). Mana yang lebih tinggi?",
+          "options": [
+            { "text": "Rumah A, karena z-nya 5", "correct": true },
+            { "text": "Rumah B, karena z-nya lebih kecil" },
+            { "text": "Sama tinggi, karena x dan y-nya sama" }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "L3",
+      "number": 3,
+      "title": "Final Quest",
+      "tagline": "Pasang rumah 3D di koordinat target",
+      "intro": "Atur x, y, dan z sampai rumah tepat di target, lalu tekan **Pasang Rumah**. Salah pasang = nyawa berkurang!",
+      "seconds": 90,
+      "challenges": [
+        { "id": "L3-1", "kind": "plot3d", "text": "Pasang rumah di **(3, 4, 2)**.", "target": [3, 4, 2] },
+        { "id": "L3-2", "kind": "plot3d", "text": "Pasang rumah di **(−2, 3, 1)**.", "target": [-2, 3, 1] },
+        { "id": "L3-3", "kind": "plot3d", "text": "Pasang rumah di **(4, −3, 3)**.", "target": [4, -3, 3] },
+        { "id": "L3-4", "kind": "plot3d", "text": "Pasang rumah di **(0, 5, 2)**.", "target": [0, 5, 2] },
+        { "id": "L3-5", "kind": "plot3d", "text": "Pasang rumah di **(−4, −2, 4)**.", "target": [-4, -2, 4] }
+      ]
+    }
+  ]
+}

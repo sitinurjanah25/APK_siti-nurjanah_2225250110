@@ -1,0 +1,112 @@
+{
+  "id": "m0",
+  "title": "Pemanasan Garis Bilangan",
+  "steps": [
+    {
+      "id": "m0-1",
+      "kind": "info",
+      "text": [
+        "Lihat garis mendatar berwarna biru. Ini seperti **garis bilangan**.",
+        "Bilangan di sebelah **kanan** 0 bernilai positif (+). Bilangan di sebelah **kiri** 0 bernilai negatif (−)."
+      ],
+      "grid": {
+        "highlight": "x"
+      }
+    },
+    {
+      "id": "m0-2",
+      "kind": "info",
+      "text": [
+        "[x:−3] artinya **3 langkah ke kiri** dari 0.",
+        "Jarak −3 ke 0 tetap **3**, karena jarak selalu positif."
+      ],
+      "grid": {
+        "highlight": "x",
+        "path": [
+          [
+            0,
+            0
+          ],
+          [
+            -3,
+            0
+          ]
+        ]
+      }
+    },
+    {
+      "id": "m0-3",
+      "kind": "plot",
+      "phase": "independent",
+      "text": [
+        "Ketuk bilangan [x:−4] pada garis biru."
+      ],
+      "target": [
+        -4,
+        0
+      ],
+      "grid": {
+        "highlight": "x",
+        "showGuides": false
+      },
+      "hints": [
+        "Negatif berarti ke kiri dari 0.",
+        "Hitung 4 langkah ke kiri dari 0."
+      ]
+    },
+    {
+      "id": "m0-4",
+      "kind": "choice",
+      "phase": "independent",
+      "text": [
+        "Berapa jarak −5 ke 0?"
+      ],
+      "options": [
+        {
+          "text": "5",
+          "correct": true,
+          "feedback": "Tepat! Jaraknya 5. Tanda − hanya menunjukkan arah (kiri)."
+        },
+        {
+          "text": "−5",
+          "feedback": "Hampir. Jarak selalu positif, jadi jaraknya 5."
+        },
+        {
+          "text": "0",
+          "feedback": "Belum tepat. Hitung langkah dari −5 sampai 0."
+        }
+      ]
+    },
+    {
+      "id": "m0-5",
+      "kind": "info",
+      "text": [
+        "Sekarang lihat garis **tegak** berwarna oranye.",
+        "Ke **atas** dari 0 bernilai positif (+). Ke **bawah** dari 0 bernilai negatif (−)."
+      ],
+      "grid": {
+        "highlight": "y"
+      }
+    },
+    {
+      "id": "m0-6",
+      "kind": "plot",
+      "phase": "independent",
+      "text": [
+        "Ketuk bilangan [y:−2] pada garis oranye."
+      ],
+      "target": [
+        0,
+        -2
+      ],
+      "grid": {
+        "highlight": "y",
+        "showGuides": false
+      },
+      "hints": [
+        "Negatif pada garis tegak berarti ke bawah.",
+        "Hitung 2 langkah ke bawah dari 0."
+      ]
+    }
+  ]
+}

@@ -1,0 +1,70 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512">
+  <defs>
+    <linearGradient id="bg" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0" stop-color="#1e40af"/>
+      <stop offset="0.55" stop-color="#1e1b6b"/>
+      <stop offset="1" stop-color="#4c1d95"/>
+    </linearGradient>
+    <radialGradient id="glow" cx="0.5" cy="0.5" r="0.5">
+      <stop offset="0" stop-color="#38bdf8" stop-opacity="0.35"/>
+      <stop offset="1" stop-color="#38bdf8" stop-opacity="0"/>
+    </radialGradient>
+    <linearGradient id="pin" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0" stop-color="#fde047"/>
+      <stop offset="1" stop-color="#f59e0b"/>
+    </linearGradient>
+    <filter id="neon" x="-20%" y="-20%" width="140%" height="140%">
+      <feGaussianBlur stdDeviation="3.5" result="b"/>
+      <feMerge><feMergeNode in="b"/><feMergeNode in="SourceGraphic"/></feMerge>
+    </filter>
+    <filter id="soft" x="-50%" y="-50%" width="200%" height="200%">
+      <feGaussianBlur stdDeviation="8"/>
+    </filter>
+  </defs>
+
+  <rect width="512" height="512" rx="112" fill="url(#bg)"/>
+  <ellipse cx="256" cy="300" rx="230" ry="190" fill="url(#glow)"/>
+
+  <!-- Kisi neon -->
+  <path d="M256,236L391,314M256,236L121,314M256,236L256,81M256,236L121,314M256,236L256,81M256,236L391,314M229,251.6L364,329.6M283,251.6L148,329.6M229,251.6L229,96.6M256,205L121,283M283,251.6L283,96.6M256,205L391,283M202,267.2L337,345.2M310,267.2L175,345.2M202,267.2L202,112.2M256,174L121,252M310,267.2L310,112.2M256,174L391,252M175,282.8L310,360.8M337,282.8L202,360.8M175,282.8L175,127.8M256,143L121,221M337,282.8L337,127.8M256,143L391,221M148,298.4L283,376.4M364,298.4L229,376.4M148,298.4L148,143.4M256,112L121,190M364,298.4L364,143.4M256,112L391,190M121,314L256,392M391,314L256,392M121,314L121,159M256,81L121,159M391,314L391,159M256,81L391,159" fill="none" stroke="#7dd3fc" stroke-opacity="0.75" stroke-width="2" stroke-linecap="round" filter="url(#neon)"/>
+  <polygon points="256,236 121,314 256,392 391,314" fill="#38bdf8" fill-opacity="0.08"/>
+
+  <!-- Garis proyeksi rumah ke sumbu -->
+  <path d="M283,314L202,267.2M283,314L337,282.8" stroke="#e0f2fe" stroke-width="3" stroke-dasharray="7 6" stroke-linecap="round" fill="none"/>
+  <g fill="#e0f2fe" filter="url(#neon)">
+    <circle cx="202" cy="267.2" r="5.5"/>
+    <circle cx="337" cy="282.8" r="5.5"/>
+  </g>
+
+  <!-- Sumbu X, Y, Z -->
+  <g stroke="#f97316" stroke-width="11" stroke-linecap="round" filter="url(#neon)">
+    <path d="M256,236L114.01730146489102,317.99444804250743"/>
+    <path d="M256,236L397.982698535109,317.99444804250743"/>
+    <path d="M256,236L256,73.1"/>
+  </g>
+  <g fill="#fb923c">
+    <polygon points="96.7,328 112.70888313198813,303.7365365030805 125.7161006767285,326.2490284074388"/>
+    <polygon points="415.3,328 386.2838993232715,326.2490284074388 399.29111686801184,303.7365365030805"/>
+    <polygon points="256,53.1 269,79.1 243,79.1"/>
+  </g>
+  <circle cx="256" cy="236" r="9" fill="#fff7ed"/>
+
+  <!-- Cincin tujuan di lantai -->
+  <ellipse cx="283" cy="314" rx="50" ry="29" fill="none" stroke="#fde047" stroke-width="4" stroke-opacity="0.9" filter="url(#neon)"/>
+
+  <!-- Rumah -->
+  <ellipse cx="283" cy="318" rx="40" ry="20" fill="#0b1026" opacity="0.45" filter="url(#soft)"/>
+  <g stroke="#7c2d12" stroke-width="2.5" stroke-linejoin="round">
+    <polygon points="244.1,314 283,336.5 283,305.5 244.1,283" fill="#fdba74"/>
+    <polygon points="283,336.5 321.9,314 321.9,283 283,305.5" fill="#f97316"/>
+    <polygon points="244.1,283 283,305.5 283,256.6" fill="#ea580c"/>
+    <polygon points="283,305.5 321.9,283 283,256.6" fill="#c2410c"/>
+    <polygon points="259.5,322.9 270.3,329.1 270.3,308.1 259.5,301.9" fill="#7c2d12"/>
+  </g>
+
+  <!-- Penanda tujuan -->
+  <g filter="url(#neon)">
+    <path d="M283 241.1 C277 227.1 259 209.1 259 195.1 A24 24 0 1 1 307 195.1 C307 209.1 289 227.1 283 241.1Z" fill="url(#pin)" stroke="#92400e" stroke-width="3"/>
+  </g>
+  <path d="M283 183.1 l3.5 7.2 7.9 1.1 -5.7 5.6 1.3 7.9 -7 -3.7 -7 3.7 1.3 -7.9 -5.7 -5.6 7.9 -1.1z" fill="#ffffff"/>
+</svg>

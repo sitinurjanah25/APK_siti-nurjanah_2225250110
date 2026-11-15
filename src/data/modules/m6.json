@@ -1,0 +1,173 @@
+{
+  "id": "m6",
+  "title": "Garis Sejajar & Tegak Lurus Sumbu",
+  "steps": [
+    {
+      "id": "m6-1",
+      "kind": "info",
+      "phase": "example",
+      "text": [
+        "Titik (−3, 2) dan (4, 2) punya nilai [y:y] yang **sama**, yaitu 2.",
+        "Garis yang menghubungkannya **mendatar**, jadi **sejajar sumbu-X**."
+      ],
+      "grid": {
+        "marks": [
+          [
+            -3,
+            2
+          ],
+          [
+            4,
+            2
+          ]
+        ],
+        "path": [
+          [
+            -3,
+            2
+          ],
+          [
+            4,
+            2
+          ]
+        ]
+      }
+    },
+    {
+      "id": "m6-2",
+      "kind": "info",
+      "phase": "example",
+      "text": [
+        "Titik (1, −4) dan (1, 5) punya nilai [x:x] yang **sama**, yaitu 1.",
+        "Garisnya **tegak**, jadi **sejajar sumbu-Y** dan **tegak lurus sumbu-X**."
+      ],
+      "grid": {
+        "marks": [
+          [
+            1,
+            -4
+          ],
+          [
+            1,
+            5
+          ]
+        ],
+        "path": [
+          [
+            1,
+            -4
+          ],
+          [
+            1,
+            5
+          ]
+        ]
+      }
+    },
+    {
+      "id": "m6-3",
+      "kind": "choice",
+      "phase": "independent",
+      "text": [
+        "Jalan baru menghubungkan **Rumah Sakit** (5, 4) dan titik (−2, 4). Jalan itu sejajar dengan…"
+      ],
+      "options": [
+        {
+          "text": "Sumbu-X",
+          "correct": true,
+          "feedback": "Tepat! Nilai y keduanya sama (4), jadi jalannya mendatar."
+        },
+        {
+          "text": "Sumbu-Y",
+          "feedback": "Belum tepat. Yang sama adalah nilai y, jadi jalannya mendatar."
+        },
+        {
+          "text": "Tidak sejajar sumbu mana pun",
+          "feedback": "Belum tepat. Bandingkan nilai y keduanya."
+        }
+      ]
+    },
+    {
+      "id": "m6-4",
+      "kind": "choice",
+      "phase": "independent",
+      "text": [
+        "Garis dari (3, −1) ke (3, 4)…"
+      ],
+      "options": [
+        {
+          "text": "Sejajar sumbu-X",
+          "feedback": "Belum tepat. Yang sama adalah nilai x (3), jadi garisnya tegak."
+        },
+        {
+          "text": "Sejajar sumbu-Y",
+          "correct": true,
+          "feedback": "Tepat! Nilai x sama, jadi garisnya tegak, sejajar sumbu-Y."
+        },
+        {
+          "text": "Miring",
+          "feedback": "Belum tepat. Bandingkan nilai x keduanya."
+        }
+      ]
+    },
+    {
+      "id": "m6-5",
+      "kind": "plot",
+      "phase": "independent",
+      "text": [
+        "Garis dari (−2, −3) ke titikmu harus **sejajar sumbu-X**.",
+        "Titikmu punya [x:x] = 4. Ketuk titiknya."
+      ],
+      "target": [
+        4,
+        -3
+      ],
+      "grid": {
+        "marks": [
+          [
+            -2,
+            -3
+          ]
+        ]
+      },
+      "hints": [
+        "Sejajar sumbu-X berarti garisnya mendatar.",
+        "Garis mendatar: nilai y kedua titik sama, yaitu −3.",
+        {
+          "text": "Lihat jejak mendatar dari (−2, −3).",
+          "path": [
+            [
+              -2,
+              -3
+            ],
+            [
+              4,
+              -3
+            ]
+          ]
+        }
+      ]
+    },
+    {
+      "id": "m6-6",
+      "kind": "reflect",
+      "text": [
+        "Hal yang paling penting kuingat hari ini adalah…"
+      ],
+      "options": [
+        {
+          "id": "y-sama",
+          "text": "y sama → sejajar sumbu-X"
+        },
+        {
+          "id": "x-sama",
+          "text": "x sama → sejajar sumbu-Y"
+        },
+        {
+          "id": "tegak-lurus",
+          "text": "Sejajar sumbu-Y berarti tegak lurus sumbu-X"
+        }
+      ]
+    }
+  ]
+}

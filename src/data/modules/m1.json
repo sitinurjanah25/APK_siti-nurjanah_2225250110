@@ -1,0 +1,129 @@
+{
+  "id": "m1",
+  "title": "Kenalan Bidang Koordinat",
+  "steps": [
+    {
+      "id": "m1-1",
+      "kind": "info",
+      "text": [
+        "Kota kita punya dua jalan utama.",
+        "Jalan **mendatar** berwarna biru ini adalah **sumbu-X**."
+      ],
+      "grid": {
+        "highlight": "x"
+      }
+    },
+    {
+      "id": "m1-2",
+      "kind": "info",
+      "text": [
+        "Jalan **tegak** berwarna oranye ini adalah **sumbu-Y**."
+      ],
+      "grid": {
+        "highlight": "y"
+      }
+    },
+    {
+      "id": "m1-3",
+      "kind": "info",
+      "text": [
+        "Kedua sumbu berpotongan di **titik asal O**.",
+        "Koordinatnya (0, 0). Di kota kita, titik O adalah **Alun-alun**."
+      ],
+      "grid": {
+        "buildings": [
+          "alun"
+        ]
+      }
+    },
+    {
+      "id": "m1-4",
+      "kind": "info",
+      "text": [
+        "Ke **kanan** dan ke **atas** dari O = positif (+).",
+        "Ke **kiri** dan ke **bawah** dari O = negatif (−)."
+      ],
+      "grid": {}
+    },
+    {
+      "id": "m1-5",
+      "kind": "tap",
+      "phase": "independent",
+      "text": [
+        "Ketuk salah satu titik pada **sumbu-Y**."
+      ],
+      "accept": "axisY",
+      "grid": {
+        "showGuides": false
+      },
+      "correctMessage": "Tepat! Titik itu ada di sumbu-Y (garis tegak oranye).",
+      "wrongMessage": "Belum tepat. Sumbu-Y adalah garis **tegak** berwarna oranye.",
+      "hints": [
+        "Sumbu-Y itu garis tegak.",
+        "Cari garis berwarna oranye, lalu ketuk titik di atasnya."
+      ]
+    },
+    {
+      "id": "m1-6",
+      "kind": "tap",
+      "phase": "independent",
+      "text": [
+        "Ketuk **titik asal O**."
+      ],
+      "accept": "origin",
+      "grid": {
+        "showGuides": false
+      },
+      "correctMessage": "Tepat! Titik asal O ada di (0, 0).",
+      "wrongMessage": "Belum tepat. Titik asal ada di tempat sumbu-X dan sumbu-Y berpotongan.",
+      "hints": [
+        "Titik asal berlabel O.",
+        "Ketuk tempat garis biru dan garis oranye bertemu."
+      ]
+    },
+    {
+      "id": "m1-7",
+      "kind": "choice",
+      "phase": "independent",
+      "text": [
+        "Ke arah mana angka di sumbu-X makin **kecil**?"
+      ],
+      "options": [
+        {
+          "text": "Ke kiri",
+          "correct": true,
+          "feedback": "Tepat! Makin ke kiri, angkanya makin kecil: 2, 1, 0, −1, −2, …"
+        },
+        {
+          "text": "Ke kanan",
+          "feedback": "Belum tepat. Ke kanan angkanya makin besar."
+        },
+        {
+          "text": "Ke atas",
+          "feedback": "Belum tepat. Sumbu-X itu mendatar, jadi arahnya kiri atau kanan."
+        }
+      ]
+    },
+    {
+      "id": "m1-8",
+      "kind": "reflect",
+      "text": [
+        "Hal yang paling penting kuingat hari ini adalah…"
+      ],
+      "options": [
+        {
+          "id": "sumbu-arah",
+          "text": "Sumbu-X mendatar, sumbu-Y tegak"
+        },
+        {
+          "id": "titik-asal",
+          "text": "Titik asal O adalah (0, 0)"
+        },
+        {
+          "id": "negatif-arah",
+          "text": "Kiri dan bawah berarti negatif"
+        }
+      ]
+    }
+  ]
+}

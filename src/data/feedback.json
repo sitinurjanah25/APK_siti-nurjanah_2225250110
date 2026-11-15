@@ -1,0 +1,73 @@
+{
+  "feedback": {
+    "generic": {
+      "CORRECT": "Tepat!",
+      "OTHER": "Belum tepat. Coba lagi, atau lihat petunjuk."
+    },
+    "plot": {
+      "CORRECT": "Tepat! Titiknya di {point}.",
+      "SWAP": "Hampir! Sepertinya **x dan y tertukar**. Ingat: jalan mendatar dulu (x), baru naik/turun (y).",
+      "SIGN_X": "Jarak mendatarnya sudah benar, tapi **arahnya** terbalik. x = {a} berarti ke {dirX}.",
+      "SIGN_Y": "Jarak naik/turunnya sudah benar, tapi **arahnya** terbalik. y = {b} berarti ke {dirY}.",
+      "SIGN_BOTH": "Kedua arahnya terbalik. Cek lagi tanda + dan − pada x dan y.",
+      "OFF_BY_ONE": "Sedikit lagi! Hitung ulang kotaknya satu per satu dari titik O.",
+      "OTHER": "Belum tepat. Coba lihat petunjuk."
+    },
+    "relative": {
+      "CORRECT": "Tepat! Posisinya {move}.",
+      "SWAP": "Hampir! Sepertinya **mendatar dan tegak tertukar**. Angka pertama = gerak mendatar, angka kedua = gerak naik/turun.",
+      "SIGN_X": "Jauhnya sudah benar, tapi **arah mendatarnya** terbalik. Seharusnya ke {dirX}.",
+      "SIGN_Y": "Jauhnya sudah benar, tapi **arah naik/turunnya** terbalik. Seharusnya ke {dirY}.",
+      "SIGN_BOTH": "Kedua arahnya terbalik. Ingat: hitung dari titik **acuan** menuju titik yang ditanya.",
+      "OFF_BY_ONE": "Sedikit lagi! Hitung ulang selisihnya.",
+      "OTHER": "Belum tepat. Hitung x − a dan y − b, atau lihat petunjuk."
+    },
+    "distance": {
+      "CORRECT": "Tepat! Jaraknya {d} satuan.",
+      "AXIS_SWAP_X": "Itu jarak ke **sumbu-Y**. Untuk jarak ke sumbu-X, lihat garis oranye yang tegak, yaitu dari nilai y.",
+      "AXIS_SWAP_Y": "Itu jarak ke **sumbu-X**. Untuk jarak ke sumbu-Y, lihat garis biru yang mendatar, yaitu dari nilai x.",
+      "NEGATIVE_DIST": "Arahnya sudah benar, tapi **jarak selalu positif**. Jaraknya {d}.",
+      "OTHER": "Belum tepat. Coba lihat petunjuk."
+    },
+    "quadrant": {
+      "CORRECT": "Tepat! Letaknya: {place}.",
+      "ON_AXIS": "Titik ini terletak **pada sumbu**, jadi tidak termasuk kuadran mana pun.",
+      "NOT_ON_AXIS": "Titik ini tidak berada di sumbu. Lihat tanda x dan y-nya.",
+      "SIGN_X": "Perhatikan tanda **x**: x = {a} berarti di sebelah {dirX} sumbu-Y.",
+      "SIGN_Y": "Perhatikan tanda **y**: y = {b} berarti di sebelah {dirY} sumbu-X.",
+      "SIGN_BOTH": "Tanda x dan y-nya sama-sama terbalik. Cek lagi.",
+      "OTHER": "Belum tepat. Coba lihat petunjuk."
+    },
+    "reflect": {
+      "CORRECT": "Terima kasih! Catatanmu membantu kamu mengingat."
+    }
+  },
+  "hints": {
+    "plot": [
+      "Ingat: jalan mendatar dulu (x), baru naik/turun (y).",
+      "{xMove} Lalu {yMove}",
+      "Lihat jejak biru di grid. Dari ujungnya, lanjutkan naik/turun."
+    ],
+    "relative": [
+      "Bayangkan kamu berdiri di titik acuan. Ke mana kamu harus berjalan?",
+      "Mendatar: x − a = {x} − ({a}). Tegak: y − b = {y} − ({b}).",
+      "Lihat jejak di grid: mulai dari titik acuan."
+    ],
+    "distance": [
+      "Jarak ke sumbu-X dilihat dari y. Jarak ke sumbu-Y dilihat dari x.",
+      "Titik ini: x = {x}, y = {y}. Jarak selalu positif.",
+      "Lihat garis bantu di grid. Hitung panjang garis yang menuju sumbu-{axis}."
+    ],
+    "quadrant": [
+      "Kuadran I (+, +), II (−, +), III (−, −), IV (+, −).",
+      "Titik ini: x = {x} ({signX}), y = {y} ({signY}).",
+      "Label kuadran sekarang ditampilkan di grid."
+    ],
+    "move": {
+      "zeroX": "x = 0 berarti tidak bergeser mendatar.",
+      "zeroY": "y = 0 berarti tidak naik/turun.",
+      "x": "x = {v} berarti {n} langkah ke {dir}.",
+      "y": "y = {v} berarti {n} langkah ke {dir}."
+    }
+  }
+}

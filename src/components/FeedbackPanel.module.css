@@ -1,0 +1,54 @@
+.panel {
+  display: flex;
+  gap: var(--space-3);
+  padding: var(--space-3) var(--space-4);
+  border-radius: var(--radius);
+  border: 2px solid
+}
+
+.ok {
+  background: var(--ok-soft);
+  border-color: var(--ok)
+}
+
+.err {
+  background: var(--err-soft);
+  border-color: var(--err)
+}
+
+.icon {
+  flex: none;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 28px;
+  height: 28px;
+  border-radius: 50%;
+  color: #fff;
+  font-weight: 800
+}
+
+.ok .icon {
+  background: var(--ok)
+}
+
+.err .icon {
+  background: var(--err)
+}
+
+.title {
+  margin: 0;
+  font-weight: 800
+}
+
+.ok .title {
+  color: var(--ok)
+}
+
+.err .title {
+  color: var(--err)
+}
+
+.text {
+  margin: 0
+}

@@ -1,0 +1,237 @@
+{
+  "id": "m4",
+  "title": "Jarak Titik ke Sumbu",
+  "steps": [
+    {
+      "id": "m4-1",
+      "kind": "info",
+      "text": [
+        "Seberapa jauh **Sekolah** dari Jalan Utama Mendatar (**sumbu-X**)?",
+        "Sekolah ada di ([x:−4], [y:3])."
+      ],
+      "grid": {
+        "buildings": [
+          "sekolah"
+        ],
+        "point": [
+          -4,
+          3
+        ],
+        "showGuides": false
+      }
+    },
+    {
+      "id": "m4-2",
+      "kind": "info",
+      "phase": "example",
+      "text": [
+        "Tarik garis dari Sekolah lurus ke **sumbu-X**.",
+        "Garisnya **tegak** (oranye) dan panjangnya **3**. Jadi jarak ke sumbu-X = 3, sama dengan nilai [y:y]."
+      ],
+      "grid": {
+        "buildings": [
+          "sekolah"
+        ],
+        "point": [
+          -4,
+          3
+        ],
+        "highlight": "y"
+      }
+    },
+    {
+      "id": "m4-3",
+      "kind": "info",
+      "phase": "example",
+      "text": [
+        "Sekarang tarik garis dari Sekolah lurus ke **sumbu-Y**.",
+        "Garisnya **mendatar** (biru) dan panjangnya **4**. Jadi jarak ke sumbu-Y = 4, dari nilai [x:x]."
+      ],
+      "grid": {
+        "buildings": [
+          "sekolah"
+        ],
+        "point": [
+          -4,
+          3
+        ],
+        "highlight": "x"
+      }
+    },
+    {
+      "id": "m4-4",
+      "kind": "info",
+      "text": [
+        "Ingat kalimat kunci ini:",
+        "**Jarak ke sumbu-X dilihat dari [y:y]. Jarak ke sumbu-Y dilihat dari [x:x].**",
+        "Jarak selalu **positif**, walaupun koordinatnya negatif."
+      ],
+      "grid": {
+        "buildings": [
+          "sekolah"
+        ],
+        "point": [
+          -4,
+          3
+        ]
+      }
+    },
+    {
+      "id": "m4-5",
+      "kind": "distance",
+      "phase": "completion",
+      "text": [
+        "**Pos Polisi** ada di ([x:−3], [y:−5]). Garis bantunya sudah ditampilkan.",
+        "Berapa jarak Pos Polisi ke **sumbu-X**?"
+      ],
+      "point": [
+        -3,
+        -5
+      ],
+      "axis": "X",
+      "grid": {
+        "buildings": [
+          "polisi"
+        ],
+        "showGuides": true
+      }
+    },
+    {
+      "id": "m4-6",
+      "kind": "distance",
+      "phase": "independent",
+      "text": [
+        "**Terminal** ada di ([x:6], [y:−3]). Berapa jaraknya ke **sumbu-X**?"
+      ],
+      "point": [
+        6,
+        -3
+      ],
+      "axis": "X",
+      "grid": {
+        "range": 10,
+        "buildings": [
+          "terminal"
+        ],
+        "showGuides": false
+      }
+    },
+    {
+      "id": "m4-7",
+      "kind": "distance",
+      "phase": "independent",
+      "text": [
+        "Berapa jarak Terminal ([x:6], [y:−3]) ke **sumbu-Y**?"
+      ],
+      "point": [
+        6,
+        -3
+      ],
+      "axis": "Y",
+      "grid": {
+        "range": 10,
+        "buildings": [
+          "terminal"
+        ],
+        "showGuides": false
+      }
+    },
+    {
+      "id": "m4-8",
+      "kind": "distance",
+      "phase": "independent",
+      "text": [
+        "**Pom Bensin** ada di ([x:4], [y:−6]). Berapa jaraknya ke **sumbu-X**?"
+      ],
+      "point": [
+        4,
+        -6
+      ],
+      "axis": "X",
+      "grid": {
+        "range": 10,
+        "buildings": [
+          "spbu"
+        ],
+        "showGuides": false
+      }
+    },
+    {
+      "id": "m4-9",
+      "kind": "plot",
+      "phase": "independent",
+      "text": [
+        "Sebuah titik ada di **kuadran II**.",
+        "Jaraknya **2** dari sumbu-X dan **5** dari sumbu-Y. Ketuk titiknya."
+      ],
+      "target": [
+        -5,
+        2
+      ],
+      "grid": {
+        "showQuadrants": true
+      },
+      "hints": [
+        "Jarak ke sumbu-X dilihat dari y. Jarak ke sumbu-Y dilihat dari x.",
+        "Jadi |y| = 2 dan |x| = 5. Di kuadran II, x negatif dan y positif.",
+        {
+          "text": "Lihat jejak biru: 5 langkah ke kiri. Lanjutkan naik 2.",
+          "path": [
+            [
+              0,
+              0
+            ],
+            [
+              -5,
+              0
+            ]
+          ]
+        }
+      ]
+    },
+    {
+      "id": "m4-10",
+      "kind": "choice",
+      "phase": "independent",
+      "text": [
+        "Rina bilang jarak Terminal (6, −3) ke sumbu-X adalah **6**. Apa kesalahannya?"
+      ],
+      "options": [
+        {
+          "text": "Rina memakai x. Jarak ke sumbu-X dilihat dari y, jadi jaraknya 3.",
+          "correct": true,
+          "feedback": "Tepat! Rina menukar sumbunya. 6 adalah jarak ke sumbu-Y."
+        },
+        {
+          "text": "Rina benar, jaraknya 6",
+          "feedback": "Belum tepat. Lihat garis oranye dari Terminal ke sumbu-X: panjangnya 3."
+        },
+        {
+          "text": "Jaraknya −3",
+          "feedback": "Hampir. Nilainya dari y, tetapi jarak selalu positif: 3."
+        }
+      ]
+    },
+    {
+      "id": "m4-11",
+      "kind": "reflect",
+      "text": [
+        "Hal yang paling penting kuingat hari ini adalah…"
+      ],
+      "options": [
+        {
+          "id": "jarak-x-dari-y",
+          "text": "Jarak ke sumbu-X dilihat dari y"
+        },
+        {
+          "id": "jarak-y-dari-x",
+          "text": "Jarak ke sumbu-Y dilihat dari x"
+        },
+        {
+          "id": "jarak-positif",
+          "text": "Jarak selalu positif"
+        }
+      ]
+    }
+  ]
+}
