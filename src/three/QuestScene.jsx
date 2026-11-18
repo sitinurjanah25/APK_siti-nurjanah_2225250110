@@ -4,6 +4,7 @@ import {
   BufferGeometry,
   CanvasTexture,
   CircleGeometry,
+  Color,
   ConeGeometry,
   CylinderGeometry,
   DirectionalLight,
@@ -22,12 +23,15 @@ import {
   MOUSE,
   PerspectiveCamera,
   PlaneGeometry,
+  Raycaster,
+  RingGeometry,
   Scene,
   SphereGeometry,
   Sprite,
   SpriteMaterial,
   SRGBColorSpace,
   TOUCH,
+  Vector2,
   Vector3,
   WebGLRenderer,
 } from 'three';
@@ -121,7 +125,7 @@ function disposeTree(root) {
 
 /* ---------- Lantai, kisi, sumbu ---------- */
 
-function buildWorld(range, zMax) {
+function buildWorld(range, zMax, showNumbers = true) {
   const g = new Group();
 
   const ground = new Mesh(
@@ -177,28 +181,36 @@ function buildWorld(range, zMax) {
   lo.position.set(-0.3, 0.05, 0.35);
   g.add(lx, ly, lz, lo);
 
-  // Angka di setiap sumbu
+  // Angka di setiap sumbu: satu grup yang bisa disembunyikan/ditampilkan tanpa membangun ulang adegan
+  const nums = new Group();
+  nums.name = 'numbers';
+  nums.visible = showNumbers;
+  g.add(nums);
   for (let i = -range; i <= range; i += 1) {
     if (i === 0) continue;
     const nx = textSprite(fmtNum(i), { color: COLORS.x, size: 0.34 });
     nx.position.set(i, 0.02, 0.38);
     const ny = textSprite(fmtNum(i), { color: COLORS.y, size: 0.34 });
     ny.position.set(-0.4, 0.02, -i);
-    g.add(nx, ny);
+    nums.add(nx, ny);
   }
   for (let i = 1; i <= zMax; i += 1) {
-    const nz = textSprite(String(i), { color: COLORS.z, size: 0.34 });
-    nz.position.set(0.38, i, 0.2);
     const tick = new Mesh(new BoxGeometry(0.22, 0.03, 0.03), new MeshBasicMaterial({ color: COLORS.z }));
     tick.position.y = i;
-    g.add(nz, tick);
+    g.add(tick);
+    const nz = textSprite(String(i), { color: COLORS.z, size: 0.34 });
+    nz.position.set(0.38, i, 0.2);
+    nums.add(nz);
   }
   return g;
 }
 
+const skyColor = new Color(COLORS.sky);
+const tmpColor = new Color();
+
 /* ---------- Rumah ---------- */
 
-function buildHouse() {
+function buildHouse(id, label) {
   const group = new Group();
   const bodyMat = new MeshLambertMaterial({ color: COLORS.house });
   const roofMat = new MeshLambertMaterial({ color: COLORS.roof });
@@ -214,6 +226,13 @@ function buildHouse() {
   win.rotation.y = Math.PI / 2;
   const dot = new Mesh(new SphereGeometry(0.09, 16, 12), new MeshBasicMaterial({ color: COLORS.point }));
   group.add(body, roof, door, win, dot);
+  for (const m of [body, roof, door, win]) m.userData.houseId = id;
+  if (label) {
+    // Hanya huruf (A, B, C…), tidak pernah angka koordinat.
+    const tag = textSprite(label, { bg: '#fde047', color: '#0b1437', size: 0.5 });
+    tag.position.y = 1.35;
+    group.add(tag);
+  }
   return { group, bodyMat, roofMat };
 }
 
@@ -221,17 +240,36 @@ function buildHouse() {
 
 /**
  * Ruang 3D untuk Quest.
- * Props: house = [x, y, z] atau null, showGuides, range (x/y), zMax,
- * effect = { type: 'success' | 'error', key } untuk memicu animasi.
+ * Props:
+ *  - houses: [{ id, at: [x, y, z], label? }] — rumah yang tampil (label hanya huruf)
+ *  - selectedId, onPick(id): rumah bisa diketuk kalau onPick diberikan
+ *  - showGuides: garis proyeksi untuk rumah aktif (rumah tunggal, atau yang dipilih)
+ *  - showNumbers: angka di sumbu (disembunyikan di mode Hard)
+ *  - effect: { type: 'success' | 'error' | 'idle', key, id } untuk animasi
+ *  - view: sudut kamera awal ('home' | 'top' | 'front' | 'side' | 'low'); Reset kembali ke sini
  * Ref: resetView(), rotate(derajat), zoom(faktor), topView().
  */
 const QuestScene = forwardRef(function QuestScene(
-  { house = null, showGuides = true, range = 5, zMax = 5, effect = null },
+  {
+    houses = [],
+    selectedId = null,
+    onPick = null,
+    showGuides = true,
+    showNumbers = true,
+    range = 5,
+    zMax = 5,
+    effect = null,
+    view = 'home',
+  },
   ref,
 ) {
   const hostRef = useRef(null);
   const api = useRef(null);
+  const viewRef = useRef(view);
+  const numbersRef = useRef(showNumbers);
+  const onPickRef = useRef(onPick);
   const [lost, setLost] = useState(false);
+  onPickRef.current = onPick;
 
   useEffect(() => {
     const host = hostRef.current;
@@ -245,23 +283,29 @@ const QuestScene = forwardRef(function QuestScene(
     scene.add(new HemisphereLight('#ffffff', '#334155', 2.1));
     const sun = new DirectionalLight('#ffffff', 1.5);
     sun.position.set(5, 10, 7);
-    scene.add(sun, buildWorld(range, zMax));
+    const world = buildWorld(range, zMax, numbersRef.current);
+    scene.add(sun, world);
 
-    const { group: houseGroup, bodyMat, roofMat } = buildHouse();
-    houseGroup.visible = false;
-    scene.add(houseGroup);
+    const houseLayer = new Group();
     const guides = new Group();
-    scene.add(guides);
     const particles = new Group();
-    scene.add(particles);
+    scene.add(houseLayer, guides, particles);
+    /** id → { group, bodyMat, roofMat } */
+    const houseMap = new Map();
+    const pickable = [];
 
     // Kamera
     const camera = new PerspectiveCamera(45, 1, 0.1, 200);
     const VIEWS = {
       home: { pos: new Vector3(range * 1.25, range * 1.5, range * 2.55), target: new Vector3(0.4, 1.4, -0.4) },
       top: { pos: new Vector3(0, range * 3.3, 0.01), target: new Vector3(0, 0, 0) },
+      // Sudut kamera tambahan untuk level-level tertentu
+      front: { pos: new Vector3(0, range * 0.9, range * 3.1), target: new Vector3(0, 1.6, 0) },
+      side: { pos: new Vector3(range * 3.1, range * 0.9, 0.01), target: new Vector3(0, 1.6, 0) },
+      low: { pos: new Vector3(-range * 2.2, range * 0.55, range * 2.2), target: new Vector3(0, 1.8, 0) },
     };
-    camera.position.copy(VIEWS.home.pos);
+    let homeView = VIEWS[viewRef.current] ?? VIEWS.home;
+    camera.position.copy(homeView.pos);
 
     const controls = new OrbitControls(camera, renderer.domElement);
     Object.assign(controls, {
@@ -277,15 +321,13 @@ const QuestScene = forwardRef(function QuestScene(
     });
     controls.touches = { ONE: TOUCH.ROTATE, TWO: TOUCH.DOLLY_PAN };
     controls.mouseButtons = { LEFT: MOUSE.ROTATE, MIDDLE: MOUSE.DOLLY, RIGHT: MOUSE.PAN };
-    controls.target.copy(VIEWS.home.target);
+    controls.target.copy(homeView.target);
     controls.update();
 
-    // Animasi: setiap fungsi menerima dt (detik), mengembalikan false kalau sudah selesai.
+    // Animasi: fungsi(dt) → true selama masih berjalan
     let anims = [];
     let dirty = true;
-    const addAnim = (fn) => {
-      anims.push(fn);
-    };
+    const addAnim = (fn) => anims.push(fn);
 
     const flyTo = (pos, target) => {
       anims = anims.filter((a) => !a.isFly);
@@ -311,7 +353,6 @@ const QuestScene = forwardRef(function QuestScene(
       addAnim(fly);
     };
 
-    // Loop: render hanya kalau ada yang berubah
     let raf = 0;
     let last = performance.now();
     const tick = (now) => {
@@ -348,22 +389,49 @@ const QuestScene = forwardRef(function QuestScene(
     };
     renderer.domElement.addEventListener('webglcontextlost', onLost);
 
+    /* --- Ketuk rumah (abaikan kalau jari menggeser > 8 px) --- */
+    const raycaster = new Raycaster();
+    const ndc = new Vector2();
+    let down = null;
+    const hitHouse = (e) => {
+      const rect = renderer.domElement.getBoundingClientRect();
+      ndc.set(((e.clientX - rect.left) / rect.width) * 2 - 1, -((e.clientY - rect.top) / rect.height) * 2 + 1);
+      raycaster.setFromCamera(ndc, camera);
+      return raycaster.intersectObjects(pickable, false)[0]?.object.userData.houseId ?? null;
+    };
+    const onDown = (e) => {
+      down = { x: e.clientX, y: e.clientY };
+    };
+    const onUp = (e) => {
+      if (!down || !onPickRef.current || Math.hypot(e.clientX - down.x, e.clientY - down.y) > 8) return;
+      down = null;
+      const id = hitHouse(e);
+      if (id) onPickRef.current(id);
+    };
+    const onMove = (e) => {
+      if (!onPickRef.current || e.pointerType !== 'mouse') return;
+      renderer.domElement.style.cursor = hitHouse(e) ? 'pointer' : '';
+    };
+    renderer.domElement.addEventListener('pointerdown', onDown);
+    renderer.domElement.addEventListener('pointerup', onUp);
+    renderer.domElement.addEventListener('pointermove', onMove);
+
     /* --- Rumah & garis bantu --- */
-    const setHouse = (point, withGuides) => {
-      for (const c of [...guides.children]) {
-        guides.remove(c);
+    const clearGroup = (g) => {
+      for (const c of [...g.children]) {
+        g.remove(c);
         disposeTree(c);
       }
+    };
+
+    const drawGuides = (point, withLines, highlight) => {
+      clearGroup(guides);
       if (!point) {
-        houseGroup.visible = false;
         dirty = true;
         return;
       }
       const [x, y, z = 0] = point;
       const at = toWorld(point);
-      houseGroup.visible = true;
-      houseGroup.position.copy(at);
-
       const floor = toWorld([x, y, 0]);
       const shadow = new Mesh(
         new CircleGeometry(0.45, 28),
@@ -372,45 +440,85 @@ const QuestScene = forwardRef(function QuestScene(
       shadow.rotation.x = -Math.PI / 2;
       shadow.position.set(floor.x, 0.005, floor.z);
       guides.add(shadow);
-
-      if (withGuides) {
+      if (highlight) {
+        const ring = new Mesh(
+          new RingGeometry(0.55, 0.7, 40),
+          new MeshBasicMaterial({ color: COLORS.point, side: DoubleSide }),
+        );
+        ring.rotation.x = -Math.PI / 2;
+        ring.position.set(at.x, at.y + 0.02, at.z);
+        guides.add(ring);
+      }
+      if (withLines) {
         if (x !== 0) guides.add(dashed(floor, toWorld([0, y, 0]), COLORS.x)); // panjang = x
         if (y !== 0) guides.add(dashed(floor, toWorld([x, 0, 0]), COLORS.y)); // panjang = y
         if (z !== 0) {
           guides.add(dashed(floor, at, COLORS.z)); // tinggi = z
-          const ring = new Mesh(new CircleGeometry(0.1, 16), new MeshBasicMaterial({ color: COLORS.z }));
-          ring.rotation.x = -Math.PI / 2;
-          ring.position.set(floor.x, 0.01, floor.z);
-          guides.add(ring);
+          const foot = new Mesh(new CircleGeometry(0.1, 16), new MeshBasicMaterial({ color: COLORS.z }));
+          foot.rotation.x = -Math.PI / 2;
+          foot.position.set(floor.x, 0.01, floor.z);
+          guides.add(foot);
         }
       }
       dirty = true;
     };
 
-    const resetHouseColor = () => {
-      bodyMat.color.set(COLORS.house);
-      roofMat.color.set(COLORS.roof);
+    const setHouses = (list, activeId, withLines) => {
+      clearGroup(houseLayer);
+      houseMap.clear();
+      pickable.length = 0;
+      for (const h of list) {
+        const built = buildHouse(h.id, h.label);
+        built.group.position.copy(toWorld(h.at));
+        if (h.id === activeId && list.length > 1) built.group.scale.setScalar(1.12);
+        houseLayer.add(built.group);
+        houseMap.set(h.id, built);
+        built.group.traverse((o) => o.userData.houseId && pickable.push(o));
+      }
+      const active = list.length === 1 ? list[0] : list.find((h) => h.id === activeId);
+      drawGuides(active?.at ?? null, withLines, list.length > 1 && !!active);
     };
 
-    const celebrate = () => {
-      bodyMat.color.set(COLORS.ok);
-      roofMat.color.set(COLORS.okRoof);
-      if (reducedMotion()) {
-        dirty = true;
-        return;
-      }
-      // Rumah melompat
+    const paint = (id, body, roof) => {
+      const h = houseMap.get(id);
+      if (!h) return;
+      h.bodyMat.color.set(body);
+      h.roofMat.color.set(roof);
+      dirty = true;
+    };
+    const resetColors = () => {
+      for (const id of houseMap.keys()) paint(id, COLORS.house, COLORS.roof);
+    };
+
+    // Kilatan warna langit (hijau = benar, merah = salah)
+    const flashSky = (color) => {
+      if (reducedMotion()) return;
       let t = 0;
       addAnim((dt) => {
         t += dt;
         const k = Math.min(1, t / 0.6);
-        houseGroup.scale.setScalar(1 + Math.sin(k * Math.PI) * 0.35);
+        tmpColor.set(color).lerp(skyColor, k);
+        renderer.setClearColor(tmpColor);
         return k < 1;
       });
-      // Konfeti 3D
+    };
+
+    const celebrate = (id) => {
+      const h = houseMap.get(id);
+      if (!h) return;
+      paint(id, COLORS.ok, COLORS.okRoof);
+      flashSky('#14532d');
+      if (reducedMotion()) return;
+      let t = 0;
+      addAnim((dt) => {
+        t += dt;
+        const k = Math.min(1, t / 0.6);
+        h.group.scale.setScalar(1 + Math.sin(k * Math.PI) * 0.35);
+        return k < 1;
+      });
       const geo = new BoxGeometry(0.09, 0.09, 0.02);
-      const origin = houseGroup.position.clone().add(new Vector3(0, 0.8, 0));
-      const bits = Array.from({ length: 90 }, (_, i) => {
+      const origin = h.group.position.clone().add(new Vector3(0, 0.8, 0));
+      const bits = Array.from({ length: 100 }, (_, i) => {
         const m = new Mesh(geo, new MeshBasicMaterial({ color: CONFETTI[i % CONFETTI.length], side: DoubleSide }));
         m.position.copy(origin);
         const a = Math.random() * Math.PI * 2;
@@ -439,17 +547,20 @@ const QuestScene = forwardRef(function QuestScene(
       });
     };
 
-    const shake = () => {
-      bodyMat.color.set(COLORS.err);
-      const base = houseGroup.position.clone();
+    const shake = (id) => {
+      const h = houseMap.get(id);
+      flashSky('#7f1d1d');
+      if (!h) return;
+      paint(id, COLORS.err, COLORS.roof);
+      const base = h.group.position.clone();
       let t = 0;
       addAnim((dt) => {
         t += dt;
         const k = Math.min(1, t / 0.5);
-        houseGroup.position.x = base.x + Math.sin(k * Math.PI * 8) * 0.12 * (1 - k);
+        h.group.position.x = base.x + Math.sin(k * Math.PI * 8) * 0.12 * (1 - k);
         if (k >= 1) {
-          houseGroup.position.copy(base);
-          resetHouseColor();
+          h.group.position.copy(base);
+          paint(id, COLORS.house, COLORS.roof);
           return false;
         }
         return true;
@@ -469,12 +580,23 @@ const QuestScene = forwardRef(function QuestScene(
     };
 
     api.current = {
-      setHouse,
-      resetHouseColor,
+      setNumbers: (visible) => {
+        const n = world.getObjectByName('numbers');
+        if (n && n.visible !== visible) {
+          n.visible = visible;
+          dirty = true;
+        }
+      },
+      setHouses,
+      resetColors,
       celebrate,
       shake,
-      resetView: () => flyTo(VIEWS.home.pos, VIEWS.home.target),
+      resetView: () => flyTo(homeView.pos, homeView.target),
       topView: () => flyTo(VIEWS.top.pos, VIEWS.top.target),
+      setView: (name) => {
+        homeView = VIEWS[name] ?? VIEWS.home;
+        flyTo(homeView.pos, homeView.target);
+      },
       rotate: rotateBy,
       zoom: zoomBy,
     };
@@ -485,27 +607,42 @@ const QuestScene = forwardRef(function QuestScene(
       ro?.disconnect();
       controls.dispose();
       renderer.domElement.removeEventListener('webglcontextlost', onLost);
+      renderer.domElement.removeEventListener('pointerdown', onDown);
+      renderer.domElement.removeEventListener('pointerup', onUp);
+      renderer.domElement.removeEventListener('pointermove', onMove);
       disposeTree(scene);
       renderer.dispose();
       renderer.domElement.remove();
     };
   }, [range, zMax]);
 
-  // Posisi rumah mengikuti props
-  const hx = house?.[0];
-  const hy = house?.[1];
-  const hz = house?.[2];
+  // Angka sumbu: tampil/sembunyi tanpa membangun ulang (kamera siswa tidak meloncat)
   useEffect(() => {
-    api.current?.setHouse(house ? [hx, hy, hz ?? 0] : null, showGuides);
+    numbersRef.current = showNumbers;
+    api.current?.setNumbers(showNumbers);
+  }, [showNumbers]);
+
+  // Rumah mengikuti props (dibandingkan lewat isi, bukan identitas array)
+  const housesKey = JSON.stringify(houses.map((h) => [h.id, h.at, h.label ?? '']));
+  useEffect(() => {
+    api.current?.setHouses(houses, selectedId, showGuides);
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [hx, hy, hz, house === null, showGuides]);
+  }, [housesKey, selectedId, showGuides, showNumbers]);
+
+  // Sudut kamera awal per level ('home' | 'top' | 'front' | 'side' | 'low')
+  useEffect(() => {
+    if (viewRef.current === view) return;
+    viewRef.current = view;
+    api.current?.setView(view);
+  }, [view]);
 
   // Efek benar / salah
   useEffect(() => {
     if (!effect || !api.current) return;
-    if (effect.type === 'success') api.current.celebrate();
-    else if (effect.type === 'error') api.current.shake();
-    else api.current.resetHouseColor();
+    const id = effect.id ?? houses[0]?.id;
+    if (effect.type === 'success') api.current.celebrate(id);
+    else if (effect.type === 'error') api.current.shake(id);
+    else api.current.resetColors();
   }, [effect?.type, effect?.key]); // eslint-disable-line react-hooks/exhaustive-deps
 
   useImperativeHandle(
@@ -536,9 +673,11 @@ const QuestScene = forwardRef(function QuestScene(
       className="h-full w-full touch-none"
       role="img"
       aria-label={
-        house
-          ? `Ruang 3D dengan rumah di koordinat ${fmtNum(hx)}, ${fmtNum(hy)}, ${fmtNum(hz ?? 0)}`
-          : 'Ruang koordinat 3D'
+        houses.length > 1
+          ? `Ruang koordinat 3D dengan ${houses.length} rumah berlabel ${houses.map((h) => h.label).join(', ')}`
+          : houses.length === 1
+            ? 'Ruang koordinat 3D dengan satu rumah'
+            : 'Ruang koordinat 3D'
       }
       onContextMenu={(e) => e.preventDefault()}
     />

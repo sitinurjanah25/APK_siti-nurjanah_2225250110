@@ -1,76 +1,175 @@
 {
-  "title": "Latihan Soal",
-  "intro": "10 soal koordinat. Setiap soal langsung diperiksa. Skor muncul di akhir.",
+  "title": "KUIS: Petualangan Koordinat",
+  "intro": "10 soal koordinat. Pilih jawaban, lalu tekan Kirim Jawaban. Ada batas waktu per soal.",
   "questions": [
     {
       "id": "q1",
       "text": "Titik A ada di ([x:3], [y:5]). Berapa nilai **x**?",
-      "options": ["3", "5"],
+      "options": [
+        "3",
+        "5"
+      ],
       "correct": 0,
-      "explain": "Angka pertama adalah x. Jadi x = [x:3]."
+      "explain": "Angka pertama adalah x. Jadi x = [x:3].",
+      "plot": [
+        {
+          "at": [
+            3,
+            5
+          ],
+          "label": "A"
+        }
+      ]
     },
     {
       "id": "q2",
       "text": "Dari titik asal, jalan [x:4] satuan ke kanan. Lalu [y:2] satuan ke bawah. Di mana titiknya?",
-      "options": ["([x:4], [y:−2])", "([x:−2], [y:4])", "([x:4], [y:2])"],
+      "options": [
+        "([x:4], [y:−2])",
+        "([x:−2], [y:4])",
+        "([x:4], [y:2])"
+      ],
       "correct": 0,
       "explain": "Kanan berarti x positif: [x:4]. Bawah berarti y negatif: [y:−2]."
     },
     {
       "id": "q3",
       "text": "Titik ([x:−5], [y:3]) ada di kuadran…",
-      "options": ["I", "II", "III", "IV"],
+      "options": [
+        "I",
+        "II",
+        "III",
+        "IV"
+      ],
       "correct": 1,
       "explain": "x negatif (kiri) dan y positif (atas). Itu kuadran II."
     },
     {
       "id": "q4",
       "text": "**Pom Bensin** ada di ([x:4], [y:−6]). Di kuadran berapa?",
-      "options": ["I", "II", "III", "IV"],
+      "options": [
+        "I",
+        "II",
+        "III",
+        "IV"
+      ],
       "correct": 3,
       "explain": "x positif (kanan) dan y negatif (bawah). Itu kuadran IV."
     },
     {
       "id": "q5",
       "text": "Titik ([x:0], [y:7]) ada di…",
-      "options": ["kuadran I", "kuadran II", "sumbu-Y, bukan kuadran mana pun"],
+      "options": [
+        "kuadran I",
+        "kuadran II",
+        "sumbu-Y, bukan kuadran mana pun"
+      ],
       "correct": 2,
       "explain": "x = 0 berarti titik tepat di sumbu-Y. Titik di sumbu tidak termasuk kuadran."
     },
     {
       "id": "q6",
       "text": "Berapa jarak titik ([x:−3], [y:5]) ke **sumbu-X**?",
-      "options": ["3 satuan", "5 satuan", "8 satuan"],
+      "options": [
+        "3 satuan",
+        "5 satuan",
+        "8 satuan"
+      ],
       "correct": 1,
-      "explain": "Jarak ke sumbu-X dilihat dari y. Nilai y = [y:5], jadi jaraknya 5 satuan."
+      "explain": "Jarak ke sumbu-X dilihat dari y. Nilai y = [y:5], jadi jaraknya 5 satuan.",
+      "plot": [
+        {
+          "at": [
+            -3,
+            5
+          ],
+          "label": ""
+        }
+      ]
     },
     {
       "id": "q7",
       "text": "**Pos Polisi** ada di ([x:−4], [y:−2]). Berapa jaraknya ke **sumbu-Y**?",
-      "options": ["−4 satuan", "2 satuan", "4 satuan"],
+      "options": [
+        "−4 satuan",
+        "2 satuan",
+        "4 satuan"
+      ],
       "correct": 2,
-      "explain": "Jarak ke sumbu-Y dilihat dari x. Nilai x = [x:−4]. Jarak selalu positif, jadi 4 satuan."
+      "explain": "Jarak ke sumbu-Y dilihat dari x. Nilai x = [x:−4]. Jarak selalu positif, jadi 4 satuan.",
+      "plot": [
+        {
+          "at": [
+            -4,
+            -2
+          ],
+          "label": "Pos Polisi"
+        }
+      ]
     },
     {
       "id": "q8",
       "text": "**Rumah Sakit** ada di ([x:−6], [y:0]). Letaknya di…",
-      "options": ["sumbu-X", "sumbu-Y", "kuadran III"],
+      "options": [
+        "sumbu-X",
+        "sumbu-Y",
+        "kuadran III"
+      ],
       "correct": 0,
       "explain": "y = 0 berarti titik tepat di sumbu-X."
     },
     {
       "id": "q9",
       "text": "**Sekolah** di ([x:2], [y:3]). **Bank** di ([x:6], [y:1]). Posisi Bank terhadap Sekolah adalah…",
-      "options": ["([x:4], [y:−2])", "([x:−4], [y:2])", "([x:8], [y:4])"],
+      "options": [
+        "([x:4], [y:−2])",
+        "([x:−4], [y:2])",
+        "([x:8], [y:4])"
+      ],
       "correct": 0,
-      "explain": "Kurangi dengan titik acuan. x: 6 − 2 = [x:4]. y: 1 − 3 = [y:−2]."
+      "explain": "Kurangi dengan titik acuan. x: 6 − 2 = [x:4]. y: 1 − 3 = [y:−2].",
+      "plot": [
+        {
+          "at": [
+            2,
+            3
+          ],
+          "label": "Sekolah"
+        },
+        {
+          "at": [
+            6,
+            1
+          ],
+          "label": "Bank"
+        }
+      ]
     },
     {
       "id": "q10",
       "text": "Titik ([x:2], [y:1]) dan ([x:2], [y:5]) dihubungkan. Garisnya…",
-      "options": ["sejajar sumbu-X", "sejajar sumbu-Y"],
+      "options": [
+        "sejajar sumbu-X",
+        "sejajar sumbu-Y"
+      ],
       "correct": 1,
-      "explain": "Nilai x keduanya sama. Garisnya tegak, jadi sejajar sumbu-Y."
+      "explain": "Nilai x keduanya sama. Garisnya tegak, jadi sejajar sumbu-Y.",
+      "plot": [
+        {
+          "at": [
+            2,
+            1
+          ],
+          "label": ""
+        },
+        {
+          "at": [
+            2,
+            5
+          ],
+          "label": ""
+        }
+      ]
     }
   ]
 }

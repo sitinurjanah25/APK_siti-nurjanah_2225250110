@@ -1,12 +1,19 @@
 import { useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import styles from './AppShell.module.css';
+import { CosmicPage } from './cosmic/Cosmic.jsx';
 
-export default function AppShell({ title, back = false, wide = false, children }) {
+/**
+ * theme:
+ *  - undefined  : halaman mengatur latarnya sendiri
+ *  - 'cosmic'   : dibungkus latar kosmik
+ *  - 'panel'    : latar kosmik + isi lama di dalam panel kaca terang (tetap mudah dibaca)
+ */
+export default function AppShell({ title, back = false, wide = false, theme, children }) {
   const navigate = useNavigate();
 
   useEffect(() => {
-    document.title = title ? `${title} · c-quest.sn25` : 'c-quest.sn25';
+    document.title = title ? `${title} · cartes.play` : 'cartes.play';
   }, [title]);
 
   const goBack = () => {
@@ -16,7 +23,7 @@ export default function AppShell({ title, back = false, wide = false, children }
 
   return (
     <>
-      <header className={styles.header}>
+      <header className={styles.header} data-shell-header>
         {back ? (
           <button type="button" className={styles.back} onClick={goBack} aria-label="Kembali">
             <svg viewBox="0 0 24 24" width="24" height="24" aria-hidden="true">
@@ -35,7 +42,13 @@ export default function AppShell({ title, back = false, wide = false, children }
         )}
         <h1 className={styles.title}>{title}</h1>
       </header>
-      <main className={`${styles.main} ${wide ? styles.wide : ''}`}>{children}</main>
+      <main className={`${styles.main} ${wide ? styles.wide : ''} motion-safe:animate-page-in`}>
+        {theme === 'cosmic' || theme === 'panel' ? (
+          <CosmicPage>{theme === 'panel' ? <div className="cosmic-panel">{children}</div> : children}</CosmicPage>
+        ) : (
+          children
+        )}
+      </main>
     </>
   );
 }

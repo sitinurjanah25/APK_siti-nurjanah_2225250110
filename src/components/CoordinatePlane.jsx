@@ -15,13 +15,13 @@ import BuildingSymbols from './BuildingSymbols.jsx';
 import styles from './CoordinatePlane.module.css';
 
 /** Sumbu, angka, panah, label kuadran. `u(px)` mengubah piksel ke unit SVG. */
-function AxesBase({ range, u, highlight, showQuadrants }) {
+function AxesBase({ range, u, highlight, showQuadrants, showNumbers = true }) {
   const numSize = u(13);
   const end = range + 0.85;
   const arrowLen = u(12);
   const arrowHalf = u(6);
   const step = range > 5 ? 2 : 1;
-  const nums = ticks(range, step).filter((n) => n !== 0);
+  const nums = showNumbers ? ticks(range, step).filter((n) => n !== 0) : [];
   const dimX = highlight === 'y' ? styles.dim : '';
   const dimY = highlight === 'x' ? styles.dim : '';
   const q = range / 2;
@@ -85,13 +85,13 @@ function AxesBase({ range, u, highlight, showQuadrants }) {
 }
 const Axes = memo(AxesBase);
 
-function BuildingMarker({ building, prefix, range, u, showLabel }) {
+function BuildingMarker({ building, prefix, range, u, showLabel, showCoords = true }) {
   const [x] = building.at;
   const [sx, sy] = toSvg(building.at);
   const size = u(24);
   const nearRight = x >= range - 2;
   return (
-    <g role="img" aria-label={`${building.name}, koordinat ${speakPoint(building.at)}`}>
+    <g role="img" aria-label={showCoords ? `${building.name}, koordinat ${speakPoint(building.at)}` : building.name}>
       <use href={`#${prefix}-${building.type}`} x={sx - size / 2} y={sy - size / 2} width={size} height={size} />
       {showLabel && (
         <text
@@ -133,7 +133,7 @@ function GridLinesBase({ range }) {
 const GridLines = memo(GridLinesBase);
 
 /** Garis bantu dari titik terpilih ke kedua sumbu. */
-function Guides({ point, range, u, highlight }) {
+function Guides({ point, range, u, highlight, showLabels = true }) {
   const [x, y] = point;
   const [sx, sy] = toSvg(point);
   const fontSize = u(12);
@@ -146,7 +146,7 @@ function Guides({ point, range, u, highlight }) {
         <g className={highlight === 'y' ? styles.dim : ''}>
           <line x1={sx} y1={sy} x2={0} y2={sy} className={styles.guideX} />
           <rect x={-foot / 2} y={sy - foot / 2} width={foot} height={foot} className={styles.footX} />
-          <text
+          {showLabels && <text
             x={sx / 2}
             y={sy + (y > range - 1 ? u(18) : -u(7))}
             textAnchor="middle"
@@ -154,14 +154,14 @@ function Guides({ point, range, u, highlight }) {
             className={`${styles.halo} ${styles.guideLabelX}`}
           >
             {describeOffset([x, 0])}
-          </text>
+          </text>}
         </g>
       )}
       {y !== 0 && (
         <g className={highlight === 'x' ? styles.dim : ''}>
           <line x1={sx} y1={sy} x2={sx} y2={0} className={styles.guideY} />
           <rect x={sx - foot / 2} y={-foot / 2} width={foot} height={foot} className={styles.footY} />
-          <text
+          {showLabels && <text
             x={nearRight ? sx - u(8) : sx + u(8)}
             y={sy / 2 + u(4)}
             textAnchor={nearRight ? 'end' : 'start'}
@@ -169,7 +169,7 @@ function Guides({ point, range, u, highlight }) {
             className={`${styles.halo} ${styles.guideLabelY}`}
           >
             {describeOffset([0, y])}
-          </text>
+          </text>}
         </g>
       )}
     </g>
@@ -177,7 +177,7 @@ function Guides({ point, range, u, highlight }) {
 }
 
 /** Titik-titik tambahan (misalnya jawaban yang sudah ditemukan). */
-function Marks({ points, range, u }) {
+function Marks({ points, range, u, showLabels = true }) {
   return (
     <g aria-hidden="true">
       {points.map((p) => {
@@ -186,7 +186,7 @@ function Marks({ points, range, u }) {
         return (
           <g key={`${p[0]},${p[1]}`}>
             <circle cx={sx} cy={sy} r={u(6)} className={styles.mark} />
-            <text
+            {showLabels && <text
               x={nearRight ? sx - u(9) : sx + u(9)}
               y={sy + u(18)}
               textAnchor={nearRight ? 'end' : 'start'}
@@ -194,7 +194,7 @@ function Marks({ points, range, u }) {
               className={`${styles.halo} ${styles.markLabel}`}
             >
               {fmtPoint(p)}
-            </text>
+            </text>}
           </g>
         );
       })}
@@ -202,7 +202,7 @@ function Marks({ points, range, u }) {
   );
 }
 
-function SelectedPoint({ point, range, u }) {
+function SelectedPoint({ point, range, u, showLabel = true }) {
   const [x, y] = point;
   const [sx, sy] = toSvg(point);
   const nearRight = x >= range - 2;
@@ -210,7 +210,7 @@ function SelectedPoint({ point, range, u }) {
   return (
     <g aria-hidden="true">
       <circle cx={sx} cy={sy} r={u(7)} className={styles.point} />
-      <text
+      {showLabel && <text
         x={nearRight ? sx - u(10) : sx + u(10)}
         y={nearTop ? sy + u(22) : sy - u(10)}
         textAnchor={nearRight ? 'end' : 'start'}
@@ -218,7 +218,7 @@ function SelectedPoint({ point, range, u }) {
         className={`${styles.halo} ${styles.pointLabel}`}
       >
         {fmtPoint(point)}
-      </text>
+      </text>}
     </g>
   );
 }
@@ -285,6 +285,9 @@ export default function CoordinatePlane({
   interactive = false,
   onSelect,
   label = 'Bidang koordinat Kartesius',
+  showNumbers = true,
+  showCoordLabels = true,
+  theme = 'light', // 'light' | 'dark' (neon, untuk layar bergaya kosmik)
 }) {
   const svgRef = useRef(null);
   const width = useElementWidth(svgRef);
@@ -311,7 +314,7 @@ export default function CoordinatePlane({
 
   const ariaLabel = [
     label,
-    selected ? `Titik dipilih: ${speakPoint(selected)}` : 'Belum ada titik dipilih',
+    selected ? (showCoordLabels ? `Titik dipilih: ${speakPoint(selected)}` : 'Titik sudah dipilih') : 'Belum ada titik dipilih',
     interactive ? 'Ketuk titik, atau pakai tombol panah untuk memindahkan titik' : '',
   ]
     .filter(Boolean)
@@ -321,19 +324,19 @@ export default function CoordinatePlane({
     <svg
       ref={svgRef}
       viewBox={gridViewBox(range)}
-      className={`${styles.svg} ${interactive ? styles.interactive : ''}`}
+      className={`${styles.svg} ${interactive ? styles.interactive : ''} ${theme === 'dark' ? styles.dark : ''}`}
       role={interactive ? 'application' : 'img'}
       aria-label={ariaLabel}
       tabIndex={interactive ? 0 : undefined}
       onClick={handleClick}
       onKeyDown={handleKeyDown}
-      data-selected={selected ? fmtPoint(selected) : undefined}
+      data-selected={selected && showCoordLabels ? fmtPoint(selected) : undefined}
     >
       <BuildingSymbols prefix={prefix} />
       <GridLines range={range} />
-      <Axes range={range} u={u} highlight={highlight} showQuadrants={showQuadrants} />
+      <Axes range={range} u={u} highlight={highlight} showQuadrants={showQuadrants} showNumbers={showNumbers} />
       {path && <WalkPath key={pathKey} path={path} u={u} />}
-      {selected && showGuides && <Guides point={selected} range={range} u={u} highlight={highlight} />}
+      {selected && showGuides && <Guides point={selected} range={range} u={u} highlight={highlight} showLabels={showCoordLabels} />}
       <g>
         {buildings
           .filter((b) => Math.abs(b.at[0]) <= range && Math.abs(b.at[1]) <= range)
@@ -345,11 +348,12 @@ export default function CoordinatePlane({
               range={range}
               u={u}
               showLabel={showBuildingLabels}
+              showCoords={showCoordLabels}
             />
           ))}
       </g>
-      {marks.length > 0 && <Marks points={marks} range={range} u={u} />}
-      {selected && <SelectedPoint point={selected} range={range} u={u} />}
+      {marks.length > 0 && <Marks points={marks} range={range} u={u} showLabels={showCoordLabels} />}
+      {selected && <SelectedPoint point={selected} range={range} u={u} showLabel={showCoordLabels} />}
     </svg>
   );
 }

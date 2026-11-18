@@ -1,5 +1,5 @@
 {
-  "name": "c-quest-sn25",
+  "name": "cartes-play",
   "private": true,
   "version": "1.0.0",
   "description": "Belajar Sistem Koordinat Kartesius kelas VIII lewat peta kota.",
@@ -11,12 +11,16 @@
     "icons": "node scripts/make-icon.mjs"
   },
   "dependencies": {
+    "@capacitor/android": "^8.6.2",
+    "@capacitor/core": "^8.6.2",
+    "@fontsource/fredoka": "^5.3.0",
     "react": "18.3.1",
     "react-dom": "18.3.1",
     "react-router-dom": "6.28.0",
     "three": "0.170.0"
   },
   "devDependencies": {
+    "@capacitor/cli": "^8.6.2",
     "@resvg/resvg-js": "^2.6.2",
     "@vitejs/plugin-react": "^4.3.4",
     "autoprefixer": "^10.4.20",

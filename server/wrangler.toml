@@ -1,0 +1,20 @@
+name = "cartes-play-tutor"
+main = "tutor-worker.js"
+compatibility_date = "2026-11-01"
+
+# AI GRATIS: Cloudflare Workers AI (tanpa API key, kuota gratis harian).
+[ai]
+binding = "AI"
+
+[vars]
+# Model Gemini (gratis). Kunci disimpan sebagai secret: npx wrangler secret put GEMINI_API_KEY
+GEMINI_MODEL = "gemini-flash-lite-latest"
+# Model gratis Workers AI. Daftar model: https://developers.cloudflare.com/workers-ai/models/
+WORKERS_AI_MODEL = "@cf/meta/llama-3.3-70b-instruct-fp8-fast"
+# (Opsional, berbayar) Model DeepSeek; hanya dipakai kalau secret DEEPSEEK_API_KEY diisi.
+DEEPSEEK_MODEL = "deepseek-flash"
+# Alamat yang boleh memanggil backend ini (dipisah koma).
+ALLOWED_ORIGINS = "https://sitinurjanah25.github.io,https://localhost,capacitor://localhost,http://localhost:5173,http://192.168.1.31:5173"
+
+# Mode gratis tidak butuh API key. Kalau nanti mau DeepSeek (berbayar), simpan key sebagai secret:
+#   npx wrangler secret put DEEPSEEK_API_KEY

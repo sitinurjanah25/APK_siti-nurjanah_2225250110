@@ -3,6 +3,8 @@ import { HashRouter, Route, Routes } from 'react-router-dom';
 import AppShell from './components/AppShell.jsx';
 import BottomNav from './components/BottomNav.jsx';
 import LessonPage from './components/LessonPlayer.jsx';
+import TutorChat from './components/tutor/TutorChat.jsx';
+import AdventurePage from './pages/AdventurePage.jsx';
 import City3DPage from './pages/City3DPage.jsx';
 import FreePlanePage from './pages/FreePlanePage.jsx';
 import HomePage from './pages/HomePage.jsx';
@@ -18,19 +20,20 @@ import { ProgressProvider } from './state/ProgressContext.jsx';
 const TeacherPage = lazy(() => import('./pages/TeacherPage.jsx'));
 
 const ROUTES = [
-  { path: '/', title: 'c-quest.sn25', wide: true, element: <HomePage /> },
-  { path: '/cek-awal', title: 'Cek Awal', back: true, element: <PretestPage /> },
-  { path: '/belajar/:moduleId', title: 'Belajar', back: true, element: <LessonPage /> },
+  { path: '/', title: 'cartes.play', wide: true, element: <AdventurePage /> },
+  { path: '/modul', title: 'Modul Belajar', back: true, wide: true, element: <HomePage /> },
+  { path: '/cek-awal', title: 'Cek Awal', back: true, theme: 'panel', element: <PretestPage /> },
+  { path: '/belajar/:moduleId', title: 'Belajar', back: true, theme: 'panel', element: <LessonPage /> },
   { path: '/misi', title: 'Misi Bangun Kota', element: <MissionsPage /> },
   { path: '/misi/:missionId', title: 'Misi', back: true, element: <MissionsPage /> },
   { path: '/quest', title: 'Quest', wide: true, element: <QuestHomePage /> },
-  { path: '/quest/:levelId', title: 'Quest', back: true, wide: true, element: <QuestPlayPage /> },
-  { path: '/latihan', title: 'Latihan Soal', element: <QuizPage /> },
-  { path: '/bidang-bebas', title: 'Bidang Bebas', element: <FreePlanePage /> },
-  { path: '/kota-3d', title: 'Kota 3D', back: true, element: <City3DPage /> },
-  { path: '/uji-coba', title: 'Ikut Uji Coba', back: true, element: <TrialPage /> },
-  { path: '/guru', title: 'Mode Guru', back: true, element: <TeacherPage /> },
-  { path: '*', title: 'Tidak ditemukan', back: true, element: <NotFoundPage /> },
+  { path: '/quest/:levelId', title: 'Quest', back: true, wide: true, theme: 'cosmic', element: <QuestPlayPage /> },
+  { path: '/latihan', title: 'Kuis', element: <QuizPage /> },
+  { path: '/bidang-bebas', title: 'Bidang Bebas', wide: true, element: <FreePlanePage /> },
+  { path: '/kota-3d', title: 'Kota 3D', back: true, wide: true, element: <City3DPage /> },
+  { path: '/uji-coba', title: 'Ikut Uji Coba', back: true, theme: 'panel', element: <TrialPage /> },
+  { path: '/guru', title: 'Mode Guru', back: true, theme: 'panel', element: <TeacherPage /> },
+  { path: '*', title: 'Tidak ditemukan', back: true, theme: 'panel', element: <NotFoundPage /> },
 ];
 
 export default function App() {
@@ -38,12 +41,12 @@ export default function App() {
     <ProgressProvider>
       <HashRouter future={{ v7_startTransition: true, v7_relativeSplatPath: true }}>
         <Routes>
-          {ROUTES.map(({ path, title, back, wide, element }) => (
+          {ROUTES.map(({ path, title, back, wide, theme, element }) => (
             <Route
               key={path}
               path={path}
               element={
-                <AppShell title={title} back={back} wide={wide}>
+                <AppShell title={title} back={back} wide={wide} theme={theme}>
                   <Suspense fallback={<p className="muted">Memuat…</p>}>{element}</Suspense>
                 </AppShell>
               }
@@ -51,6 +54,7 @@ export default function App() {
           ))}
         </Routes>
         <BottomNav />
+        <TutorChat />
       </HashRouter>
     </ProgressProvider>
   );

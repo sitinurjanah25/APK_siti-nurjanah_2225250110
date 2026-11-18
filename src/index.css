@@ -197,3 +197,95 @@ button {
     transition-duration: .01ms !important
   }
 }
+
+/* Warna nilai x/y/z yang terbaca di latar gelap (layar kosmik) */
+.cosmic .val-x {
+  color: #7dd3fc
+}
+
+.cosmic .val-y {
+  color: #fdba74
+}
+
+.cosmic .val-z {
+  color: #86efac
+}
+
+/* Layar kosmik: latar halaman & header gelap supaya tidak ada area putih */
+html.cosmic-body body {
+  background: linear-gradient(180deg, #1b1550, #24165e 55%, #3a1470) fixed
+}
+
+/* Di HP, latar kosmik halaman = latar body (satu gradasi utuh, tanpa garis sambungan) */
+@media (max-width: 639px) {
+  html.cosmic-body .cosmic {
+    background: transparent
+  }
+}
+
+html.cosmic-body body:before {
+  display: none
+}
+
+html.cosmic-body [data-shell-header] {
+  background: rgba(22, 15, 69, .9);
+  border-bottom-color: rgba(129, 140, 248, .35);
+  color: #e0e7ff
+}
+
+html.cosmic-body [data-shell-header] button {
+  color: #e0e7ff
+}
+
+/* ---------- Polesan bergaya game ---------- */
+
+/* Tombol terasa "ditekan" seperti di aplikasi game */
+button:not(:disabled),
+[role="button"],
+a.btn {
+  transition: transform .12s ease, box-shadow .2s ease, filter .2s ease
+}
+
+button:not(:disabled):active,
+a.btn:active {
+  transform: scale(.96)
+}
+
+button:not(:disabled):hover {
+  filter: brightness(1.06)
+}
+
+/* Panel kaca terang untuk halaman lama di atas latar kosmik */
+.cosmic-panel {
+  color: var(--ink);
+  background: rgba(255, 255, 255, .94);
+  border: 2px solid rgba(165, 180, 252, .6);
+  border-radius: 1.75rem;
+  padding: var(--space-4);
+  box-shadow: 0 0 0 4px rgba(129, 140, 248, .15), 0 0 36px rgba(129, 140, 248, .35), 0 18px 40px rgba(15, 10, 60, .45);
+  -webkit-backdrop-filter: blur(10px);
+  backdrop-filter: blur(10px)
+}
+
+@media (min-width: 640px) {
+  .cosmic-panel {
+    padding: var(--space-5)
+  }
+}
+
+/* Kartu putih di layar kosmik: teks tetap gelap & warna x/y/z kembali ke versi terang */
+.cosmic .card {
+  color: var(--ink)
+}
+
+.cosmic :is(.cosmic-panel, .card, [class*="bg-white"]) .val-x {
+  color: var(--x)
+}
+
+.cosmic :is(.cosmic-panel, .card, [class*="bg-white"]) .val-y {
+  color: var(--y)
+}
+
+.cosmic :is(.cosmic-panel, .card, [class*="bg-white"]) .val-z {
+  color: #15803d
+}

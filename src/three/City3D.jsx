@@ -167,14 +167,15 @@ const topOf = (obj) => new Box3().setFromObject(obj).max.y;
 
 /* ---------- Scene ---------- */
 
+// Tema neon gelap (layar kosmik): sumbu bercahaya, grid ungu-biru, label terang.
 const COLORS = {
-  x: '#1d4ed8',
-  y: '#c2410c',
-  ink: '#0f172a',
-  grid: '#b9c4d1',
-  gridMajor: '#8695a7',
-  ground: '#dfe6ee',
-  sky: '#c7d8e8',
+  x: '#60a5fa',
+  y: '#fb923c',
+  ink: '#e0f2fe',
+  grid: '#2f3f9a',
+  gridMajor: '#6d7cf0',
+  ground: '#141a4c',
+  sky: '#120c3d',
 };
 
 const FLY_MS = 600;
@@ -183,14 +184,25 @@ const prefersReducedMotion = () =>
   typeof window !== 'undefined' && window.matchMedia?.('(prefers-reduced-motion: reduce)').matches;
 
 /** Teks sebagai sprite (selalu menghadap kamera). */
-function textSprite(text, { color = COLORS.ink, size = 0.45, bold = true } = {}) {
+function textSprite(text, { color = COLORS.ink, size = 0.45, bold = true, bg = null, border = null } = {}) {
   const canvas = document.createElement('canvas');
   const ctx = canvas.getContext('2d');
   const font = `${bold ? '700' : '500'} 48px system-ui, Roboto, sans-serif`;
   ctx.font = font;
-  const w = Math.ceil(ctx.measureText(text).width) + 24;
+  const w = Math.ceil(ctx.measureText(text).width) + (bg ? 44 : 24);
   canvas.width = w;
   canvas.height = 64;
+  if (bg) {
+    // Papan nama: kotak membulat gelap dengan bingkai bercahaya
+    ctx.fillStyle = bg;
+    ctx.strokeStyle = border ?? bg;
+    ctx.lineWidth = 5;
+    ctx.beginPath();
+    if (ctx.roundRect) ctx.roundRect(4, 4, w - 8, 56, 16);
+    else ctx.rect(4, 4, w - 8, 56); // browser lama
+    ctx.fill();
+    ctx.stroke();
+  }
   ctx.font = font;
   ctx.textAlign = 'center';
   ctx.textBaseline = 'middle';
@@ -296,13 +308,13 @@ const City3D = forwardRef(function City3D({ buildings, selectedId, onSelectBuild
     const host = hostRef.current;
     const half = cityHalfSize(buildings);
 
-    const renderer = new WebGLRenderer({ antialias: true, powerPreference: 'low-power' });
+    const renderer = new WebGLRenderer({ antialias: true, alpha: true, powerPreference: 'low-power' });
     renderer.setPixelRatio(Math.min(window.devicePixelRatio || 1, 1.5));
-    renderer.setClearColor(COLORS.sky);
+    renderer.setClearColor(COLORS.sky, 0); // transparan: latar kosmik bingkai terlihat
     host.appendChild(renderer.domElement);
 
     const scene = new Scene();
-    scene.add(new HemisphereLight('#ffffff', '#cbd5e1', 2.2));
+    scene.add(new HemisphereLight('#e0e7ff', '#4c1d95', 2.4));
     const sun = new DirectionalLight('#ffffff', 1.4);
     sun.position.set(6, 12, 8);
     scene.add(sun);
@@ -321,7 +333,7 @@ const City3D = forwardRef(function City3D({ buildings, selectedId, onSelectBuild
           pickable.push(obj);
         }
       });
-      const label = textSprite(b.name, { size: 0.36 });
+      const label = textSprite(b.name, { size: 0.4, color: '#e0f2fe', bg: 'rgba(30,27,75,.85)', border: '#38bdf8' });
       label.position.set(wx, topOf(model) + 0.35, wz);
       scene.add(model, label);
       models.set(b.id, model);

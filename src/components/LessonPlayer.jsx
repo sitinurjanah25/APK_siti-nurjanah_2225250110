@@ -35,7 +35,7 @@ export default function LessonPage() {
     return (
       <section className="card">
         <h2>Modul tidak ditemukan</h2>
-        <Link to="/" className="btn">
+        <Link to="/modul" className="btn">
           Kembali ke daftar modul
         </Link>
       </section>
@@ -321,7 +321,7 @@ function ModuleFinished({ mod, onRestart }) {
         <button type="button" className="btn btn-block" onClick={onRestart}>
           Ulangi modul ini
         </button>
-        <Link to="/" className="btn btn-block">
+        <Link to="/modul" className="btn btn-block">
           Daftar modul
         </Link>
       </div>

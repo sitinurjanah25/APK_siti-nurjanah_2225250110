@@ -4,10 +4,42 @@ import { fmtNum, fmtPoint, quadrantOf, ROMAN } from './coords.js';
 import { DIAG, diagnosePoint } from './diagnose.js';
 
 export const LEVELS = questData.levels;
+/** 3 dunia: 2D (L1–5), 3D (L6–10), Tantangan Master (L11–15). */
+export const SECTIONS = questData.sections.map((s) => ({
+  ...s,
+  levels: LEVELS.filter((l) => l.section === s.id),
+}));
+
+/** Level dimainkan di ruang 3D kalau ditandai "space": "3d" atau punya soal 3D. */
+export const is3dLevel = (level) =>
+  level.space === '3d' || level.challenges.some((c) => ['read3d', 'plot3d', 'find3d'].includes(c.kind));
+
+/**
+ * Bantuan yang tampil: gabungan tingkat kesulitan dan aturan level.
+ * Level lanjut bisa mematikan garis bantu (noGuides) atau angka sumbu (noNumbers)
+ * walaupun siswa memilih Easy.
+ */
+export function levelAids(level, difficulty) {
+  const d = getDifficulty(difficulty);
+  return {
+    guides: d.guides && !level.noGuides,
+    numbers: d.numbers && !level.noNumbers,
+    quadrants: d.quadrants && !level.noNumbers,
+  };
+}
+
+/** Nama sudut kamera untuk ditampilkan di intro level. */
+export const CAMERA_LABEL = {
+  home: 'miring (standar)',
+  top: 'dari atas',
+  front: 'dari depan',
+  side: 'dari samping',
+  low: 'sudut rendah',
+};
 export const MAX_LIVES = 3;
 export const BASE_POINTS = 100;
 export const TIME_BONUS_PER_SECOND = 2;
-export const STREAK_BONUS = 20;
+export const MAX_COMBO_STEPS = 4; // combo maksimal ×2
 
 export const findLevel = (id) => LEVELS.find((l) => l.id === id) ?? null;
 
@@ -17,9 +49,71 @@ export function isUnlocked(levelId, cleared) {
   return i === 0 || (i > 0 && !!cleared?.[LEVELS[i - 1].id]);
 }
 
-/** Poin untuk jawaban benar: dasar + bonus sisa waktu + bonus beruntun. */
-export function pointsFor(timeLeft, streak) {
-  return BASE_POINTS + Math.max(0, timeLeft) * TIME_BONUS_PER_SECOND + streak * STREAK_BONUS;
+/* ---------- Tingkat kesulitan ---------- */
+
+export const DIFFICULTIES = {
+  easy: {
+    id: 'easy',
+    rank: 1,
+    label: 'Easy',
+    emoji: '🟢',
+    medal: '🥉',
+    desc: 'Garis bantu proyeksi + angka di sumbu + label kuadran.',
+    timeFactor: 1.3,
+    scoreMult: 1,
+    guides: true,
+    numbers: true,
+    quadrants: true,
+  },
+  medium: {
+    id: 'medium',
+    rank: 2,
+    label: 'Medium',
+    emoji: '🟡',
+    desc: 'Tanpa garis bantu. Baca posisi dari angka di sumbu X, Y, Z.',
+    medal: '🥈',
+    timeFactor: 1,
+    scoreMult: 1.5,
+    guides: false,
+    numbers: true,
+    quadrants: false,
+  },
+  hard: {
+    id: 'hard',
+    rank: 3,
+    label: 'Hard',
+    emoji: '🔴',
+    medal: '🥇',
+    desc: 'Tanpa angka & tanpa garis bantu. Hitung kotaknya sendiri!',
+    timeFactor: 0.8,
+    scoreMult: 2,
+    guides: false,
+    numbers: false,
+    quadrants: false,
+  },
+};
+export const DIFFICULTY_LIST = [DIFFICULTIES.easy, DIFFICULTIES.medium, DIFFICULTIES.hard];
+export const getDifficulty = (id) => DIFFICULTIES[id] ?? DIFFICULTIES.easy;
+
+/** Waktu per misi untuk level + tingkat kesulitan. */
+export const secondsFor = (level, difficulty) => Math.round(level.seconds * getDifficulty(difficulty).timeFactor);
+
+/** Pengali combo: ×1, ×1.25, ×1.5, ×1.75, ×2 (maksimal). */
+export const comboMultiplier = (streak) => 1 + 0.25 * Math.min(streak, MAX_COMBO_STEPS);
+
+/** Poin jawaban benar: (100 + 2 × sisa detik) × pengali kesulitan × pengali combo. */
+export function pointsFor(timeLeft, streak, difficulty = 'easy') {
+  const base = BASE_POINTS + Math.max(0, timeLeft) * TIME_BONUS_PER_SECOND;
+  return Math.round(base * getDifficulty(difficulty).scoreMult * comboMultiplier(streak));
+}
+
+/** Kata pujian arcade sesuai combo. */
+export function cheerFor(streak) {
+  if (streak >= 5) return 'UNSTOPPABLE!';
+  if (streak >= 4) return 'LEGENDARY!';
+  if (streak >= 3) return 'ON FIRE!';
+  if (streak >= 2) return 'COMBO!';
+  return 'PERFECT!';
 }
 
 /* ---------- Titik 3D ---------- */
@@ -89,10 +183,17 @@ export function answerText(ch) {
       return fmtPoint3(ch.point);
     case 'plot3d':
       return fmtPoint3(ch.target);
+    case 'find3d':
+      return `Rumah ${correctHouse(ch)?.label ?? ''}`;
     default:
       return '';
   }
 }
+
+const samePoint3 = (a, b) => a[0] === b[0] && a[1] === b[1] && (a[2] ?? 0) === (b[2] ?? 0);
+
+/** Rumah yang benar pada misi "Temukan Rumah". */
+export const correctHouse = (ch) => ch.houses.find((h) => samePoint3(h.at, ch.target));
 
 /** Periksa jawaban. Hasil: { correct, message }. */
 export function checkAnswer(ch, answer) {
@@ -125,6 +226,15 @@ export function checkAnswer(ch, answer) {
       if (d === DIAG3.CORRECT) return { correct: true, message: `Tepat! Rumah terpasang di ${fmtPoint3(target)}.` };
       return { correct: false, message: MSG3[d] };
     }
+    case 'find3d': {
+      const chosen = ch.houses.find((h) => h.label === answer);
+      if (!chosen) return { correct: false, message: 'Pilih salah satu rumah dulu.' };
+      if (samePoint3(chosen.at, ch.target)) {
+        return { correct: true, message: `Tepat! Rumah ${chosen.label} ada di ${fmtPoint3(ch.target)}.` };
+      }
+      const d = diagnosePoint3(ch.target, chosen.at);
+      return { correct: false, message: `Bukan rumah ${chosen.label}. ${MSG3[d]}` };
+    }
     default:
       return { correct: false, message: 'Belum tepat.' };
   }
@@ -132,16 +242,19 @@ export function checkAnswer(ch, answer) {
 
 /* ---------- State game (reducer) ---------- */
 
-export function startGame(level) {
+export function startGame(level, difficulty = 'easy') {
+  const seconds = secondsFor(level, difficulty);
   return {
     levelId: level.id,
+    difficulty: getDifficulty(difficulty).id,
     total: level.challenges.length,
-    seconds: level.seconds,
+    seconds,
     index: 0,
     score: 0,
     lives: MAX_LIVES,
     streak: 0,
-    timeLeft: level.seconds,
+    bestStreak: 0,
+    timeLeft: seconds,
     status: 'playing', // playing | correct | timeout | over | done
     feedback: null, // { tone: 'ok' | 'err' | 'info', message }
     lastGain: 0,
@@ -171,11 +284,13 @@ export function gameReducer(state, action) {
     case 'ANSWER': {
       if (state.status !== 'playing') return state;
       if (action.correct) {
-        const gain = pointsFor(state.timeLeft, state.streak);
+        const gain = pointsFor(state.timeLeft, state.streak, state.difficulty);
+        const streak = state.streak + 1;
         return {
           ...state,
           score: state.score + gain,
-          streak: state.streak + 1,
+          streak,
+          bestStreak: Math.max(state.bestStreak, streak),
           lastGain: gain,
           status: 'correct',
           feedback: { tone: 'ok', message: action.message },

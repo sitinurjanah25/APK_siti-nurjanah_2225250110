@@ -1,122 +1,466 @@
 {
+  "sections": [
+    {
+      "id": "2d",
+      "emoji": "🗺️",
+      "title": "Dunia 1 · Kota Datar 2D",
+      "subtitle": "Sumbu X, sumbu Y, kuadran, dan membaca peta",
+      "tone": "from-sky-500 to-blue-700"
+    },
+    {
+      "id": "3d",
+      "emoji": "🏙️",
+      "title": "Dunia 2 · Kota Bertingkat 3D",
+      "subtitle": "Sumbu Z, lantai, rumah melayang, dan memasang rumah",
+      "tone": "from-violet-500 to-indigo-700"
+    },
+    {
+      "id": "lanjut",
+      "emoji": "🚀",
+      "title": "Dunia 3 · Tantangan Master",
+      "subtitle": "Angka negatif, membandingkan, bergerak, soal cerita, dan Final Boss",
+      "tone": "from-orange-500 to-rose-600"
+    }
+  ],
   "levels": [
     {
       "id": "L1",
       "number": 1,
-      "title": "Bidang 2D",
-      "tagline": "Sumbu X, sumbu Y, dan Kuadran I–IV",
-      "intro": "Pasang rumah dan baca titik di bidang 2D. Ingat: (x, y) = mendatar dulu, baru naik/turun.",
-      "seconds": 45,
+      "section": "2d",
+      "title": "Kenalan Sumbu",
+      "tagline": "Sumbu X, sumbu Y, dan titik O",
+      "intro": "Selamat datang di Kota Datar! Kenali dulu **sumbu X** (mendatar), **sumbu Y** (tegak), dan **titik O (0, 0)**.",
+      "seconds": 40,
       "challenges": [
         {
           "id": "L1-1",
-          "kind": "plot2d",
-          "text": "Pasang **rumah** di ([x:3], [y:2]). Ketuk titiknya di grid.",
-          "target": [3, 2]
+          "kind": "choice",
+          "text": "Garis **mendatar** pada bidang Kartesius disebut…",
+          "options": [{ "text": "sumbu X", "correct": true }, { "text": "sumbu Y" }, { "text": "titik O" }]
         },
         {
           "id": "L1-2",
-          "kind": "plot2d",
-          "text": "Pasang **rumah** di ([x:−4], [y:1]).",
-          "target": [-4, 1]
+          "kind": "choice",
+          "text": "Titik tempat sumbu X dan sumbu Y berpotongan disebut…",
+          "options": [{ "text": "titik asal O (0, 0)", "correct": true }, { "text": "Kuadran I" }, { "text": "titik puncak" }]
         },
         {
           "id": "L1-3",
-          "kind": "quadrant",
-          "text": "Titik ([x:−3], [y:−5]) ada di mana?",
-          "point": [-3, -5]
+          "kind": "choice",
+          "text": "Pada titik (x, y), angka yang ditulis **pertama** menunjukkan…",
+          "options": [
+            { "text": "langkah mendatar (kanan/kiri)", "correct": true },
+            { "text": "langkah tegak (atas/bawah)" },
+            { "text": "jarak lurus ke titik O" }
+          ]
         },
         {
           "id": "L1-4",
-          "kind": "read2d",
-          "text": "Ada rumah di grid. Tulis koordinatnya (x, y).",
-          "point": [5, -2]
+          "kind": "choice",
+          "text": "Dari titik O, bergerak ke **kiri** membuat nilai x menjadi…",
+          "options": [{ "text": "negatif", "correct": true }, { "text": "positif" }, { "text": "selalu nol" }]
         },
         {
           "id": "L1-5",
           "kind": "plot2d",
-          "text": "Pasang **rumah** di ([x:0], [y:−3]).",
-          "target": [0, -3]
-        },
-        {
-          "id": "L1-6",
-          "kind": "quadrant",
-          "text": "Titik ([x:4], [y:0]) ada di mana?",
-          "point": [4, 0]
+          "text": "Pemanasan! Pasang **rumah** tepat di titik asal ([x:0], [y:0]).",
+          "target": [0, 0]
         }
       ]
     },
     {
       "id": "L2",
       "number": 2,
-      "title": "Masuk Ruang 3D",
-      "tagline": "Tambah sumbu Z untuk ketinggian",
-      "intro": "Sekarang ada sumbu ketiga: **sumbu Z** (hijau) untuk ketinggian. Titik ditulis (x, y, z). Putar kamera untuk melihat dari segala arah.",
+      "section": "2d",
+      "title": "Kuadran I",
+      "tagline": "Plot titik dengan x dan y positif",
+      "intro": "Mulai dari O: jalan **mendatar dulu** sejauh x, baru **naik** sejauh y.",
+      "seconds": 40,
+      "challenges": [
+        { "id": "L2-1", "kind": "plot2d", "text": "Pasang **rumah** di ([x:2], [y:3]).", "target": [2, 3] },
+        { "id": "L2-2", "kind": "plot2d", "text": "Pasang **rumah** di ([x:4], [y:1]).", "target": [4, 1] },
+        { "id": "L2-3", "kind": "plot2d", "text": "Pasang **rumah** di ([x:1], [y:4]). Hati-hati, jangan tertukar!", "target": [1, 4] },
+        { "id": "L2-4", "kind": "plot2d", "text": "Pasang **rumah** di ([x:5], [y:5]).", "target": [5, 5] },
+        { "id": "L2-5", "kind": "plot2d", "text": "Pasang **rumah** di ([x:3], [y:0]). Di mana letaknya?", "target": [3, 0] }
+      ]
+    },
+    {
+      "id": "L3",
+      "number": 3,
+      "section": "2d",
+      "title": "Kota Negatif",
+      "tagline": "Kiri dan bawah bernilai negatif",
+      "intro": "x negatif = ke **kiri**, y negatif = ke **bawah**. Tanda minus hanya menunjukkan arah.",
+      "seconds": 40,
+      "challenges": [
+        { "id": "L3-1", "kind": "plot2d", "text": "Pasang **rumah** di ([x:−3], [y:2]).", "target": [-3, 2] },
+        { "id": "L3-2", "kind": "plot2d", "text": "Pasang **rumah** di ([x:−2], [y:−4]).", "target": [-2, -4] },
+        { "id": "L3-3", "kind": "plot2d", "text": "Pasang **rumah** di ([x:4], [y:−3]).", "target": [4, -3] },
+        { "id": "L3-4", "kind": "plot2d", "text": "Pasang **rumah** di ([x:−5], [y:1]).", "target": [-5, 1] },
+        { "id": "L3-5", "kind": "plot2d", "text": "Pasang **rumah** di ([x:0], [y:−2]).", "target": [0, -2] }
+      ]
+    },
+    {
+      "id": "L4",
+      "number": 4,
+      "section": "2d",
+      "title": "Detektif Kuadran",
+      "tagline": "Tebak kuadran dari tanda (±, ±)",
+      "intro": "Kuadran I (+, +), II (−, +), III (−, −), IV (+, −). Kalau ada angka **0**, titiknya ada **pada sumbu**.",
+      "seconds": 35,
+      "challenges": [
+        { "id": "L4-1", "kind": "quadrant", "text": "Titik ([x:−2], [y:5]) ada di mana?", "point": [-2, 5] },
+        { "id": "L4-2", "kind": "quadrant", "text": "Titik ([x:3], [y:−1]) ada di mana?", "point": [3, -1] },
+        { "id": "L4-3", "kind": "quadrant", "text": "Titik ([x:−4], [y:−4]) ada di mana?", "point": [-4, -4] },
+        { "id": "L4-4", "kind": "quadrant", "text": "Titik ([x:6], [y:2]) ada di mana?", "point": [6, 2] },
+        { "id": "L4-5", "kind": "quadrant", "text": "Titik ([x:0], [y:3]) ada di mana?", "point": [0, 3] }
+      ]
+    },
+    {
+      "id": "L5",
+      "number": 5,
+      "section": "2d",
+      "title": "Membaca Peta 2D",
+      "tagline": "Koordinat rumah disembunyikan, kamu yang membaca",
+      "intro": "Rumah sudah ada di peta, tapi koordinatnya **disembunyikan**. Hitung kotaknya dari O, lalu tulis (x, y).",
+      "seconds": 45,
+      "challenges": [
+        { "id": "L5-1", "kind": "read2d", "text": "Tulis koordinat rumah ini (x, y).", "point": [4, 2] },
+        { "id": "L5-2", "kind": "read2d", "text": "Tulis koordinat rumah ini (x, y).", "point": [-3, 5] },
+        { "id": "L5-3", "kind": "read2d", "text": "Tulis koordinat rumah ini (x, y).", "point": [-1, -4] },
+        { "id": "L5-4", "kind": "read2d", "text": "Tulis koordinat rumah ini (x, y).", "point": [5, -5] },
+        { "id": "L5-5", "kind": "read2d", "text": "Rumah ini menempel di sumbu. Tulis koordinatnya (x, y).", "point": [0, 4] }
+      ]
+    },
+    {
+      "id": "L6",
+      "number": 6,
+      "section": "3d",
+      "space": "3d",
+      "camera": "front",
+      "title": "Kenalan Sumbu Z",
+      "tagline": "Sumbu ketiga untuk ketinggian",
+      "intro": "Selamat datang di Kota Bertingkat! Ada sumbu baru: **sumbu Z** (hijau) untuk **ketinggian**. Titik ditulis (x, y, z). Kamera dimulai dari **depan** supaya ketinggian mudah terlihat.",
       "seconds": 60,
       "challenges": [
         {
-          "id": "L2-1",
+          "id": "L6-1",
           "kind": "choice",
-          "text": "Di ruang 3D ada **sumbu Z**. Sumbu Z menunjukkan…",
+          "text": "Di ruang 3D, **sumbu Z** menunjukkan…",
           "options": [
             { "text": "ketinggian (naik/turun)", "correct": true },
             { "text": "jarak ke kanan/kiri" },
             { "text": "jarak ke depan/belakang" }
           ]
         },
+        { "id": "L6-2", "kind": "read3d", "text": "Rumah ini melayang tepat di atas titik O. Berapa (x, y, z)-nya?", "point": [0, 0, 3] },
         {
-          "id": "L2-2",
-          "kind": "read3d",
-          "text": "Rumah ini menempel di lantai. Tulis koordinatnya (x, y, z).",
-          "point": [2, 3, 0]
-        },
-        {
-          "id": "L2-3",
-          "kind": "read3d",
-          "text": "Rumah ini melayang. Ikuti garis bantu, lalu tulis (x, y, z).",
-          "point": [3, 1, 2]
-        },
-        {
-          "id": "L2-4",
+          "id": "L6-3",
           "kind": "choice",
-          "text": "Titik (4, 2, 0) terletak di…",
-          "options": [
-            { "text": "lantai (bidang XY), karena z = 0", "correct": true },
-            { "text": "sumbu Z, karena angkanya ada 3" },
-            { "text": "sumbu X, karena x = 4" }
-          ]
+          "text": "Titik (0, 0, 4) terletak di…",
+          "options": [{ "text": "sumbu Z", "correct": true }, { "text": "sumbu X" }, { "text": "lantai (bidang XY)" }]
         },
+        { "id": "L6-4", "kind": "read3d", "text": "Rumah ini juga di atas titik O, tapi lebih rendah. Tulis (x, y, z)-nya.", "point": [0, 0, 1] }
+      ]
+    },
+    {
+      "id": "L7",
+      "number": 7,
+      "section": "3d",
+      "space": "3d",
+      "camera": "top",
+      "title": "Rumah di Lantai",
+      "tagline": "Titik dengan z = 0",
+      "intro": "Rumah yang **menempel di lantai** punya **z = 0**. Kamera dimulai dari **atas**, jadi lantainya mirip peta 2D. Putar kamera kalau mau melihat dari samping.",
+      "seconds": 60,
+      "challenges": [
         {
-          "id": "L2-5",
-          "kind": "read3d",
-          "text": "Tulis koordinat rumah ini (x, y, z). Perhatikan tanda x!",
-          "point": [-2, 4, 3]
-        },
-        {
-          "id": "L2-6",
+          "id": "L7-1",
           "kind": "choice",
-          "text": "Rumah A di (1, 2, 5). Rumah B di (1, 2, 1). Mana yang lebih tinggi?",
+          "text": "Kalau rumah menempel di lantai, nilai z-nya adalah…",
+          "options": [{ "text": "0", "correct": true }, { "text": "1" }, { "text": "sama dengan nilai x" }]
+        },
+        { "id": "L7-2", "kind": "read3d", "text": "Tulis koordinat rumah ini (x, y, z).", "point": [2, 3, 0] },
+        { "id": "L7-3", "kind": "read3d", "text": "Tulis koordinat rumah ini (x, y, z).", "point": [4, 1, 0] },
+        { "id": "L7-4", "kind": "read3d", "text": "Tulis koordinat rumah ini (x, y, z). Perhatikan tanda x!", "point": [-3, 2, 0] },
+        { "id": "L7-5", "kind": "read3d", "text": "Tulis koordinat rumah ini (x, y, z). Perhatikan tanda y!", "point": [1, -4, 0] }
+      ]
+    },
+    {
+      "id": "L8",
+      "number": 8,
+      "section": "3d",
+      "space": "3d",
+      "title": "Rumah Melayang",
+      "tagline": "Membaca (x, y, z) lengkap",
+      "intro": "Sekarang rumahnya **melayang**. Cari dulu bayangannya di lantai (x, y), lalu hitung tingginya (z).",
+      "seconds": 60,
+      "challenges": [
+        { "id": "L8-1", "kind": "read3d", "text": "Tulis koordinat rumah ini (x, y, z).", "point": [2, 1, 2] },
+        { "id": "L8-2", "kind": "read3d", "text": "Tulis koordinat rumah ini (x, y, z).", "point": [3, 3, 4] },
+        {
+          "id": "L8-3",
+          "kind": "choice",
+          "text": "Rumah A di (1, 2, 5), rumah B di (1, 2, 1). Mana yang lebih tinggi?",
+          "houses": [{ "label": "A", "at": [1, 2, 5] }, { "label": "B", "at": [1, 2, 1] }],
           "options": [
             { "text": "Rumah A, karena z-nya 5", "correct": true },
             { "text": "Rumah B, karena z-nya lebih kecil" },
             { "text": "Sama tinggi, karena x dan y-nya sama" }
           ]
+        },
+        { "id": "L8-4", "kind": "read3d", "text": "Tulis koordinat rumah ini (x, y, z).", "point": [1, 4, 1] },
+        { "id": "L8-5", "kind": "read3d", "text": "Tulis koordinat rumah ini (x, y, z).", "point": [4, 2, 3] }
+      ]
+    },
+    {
+      "id": "L9",
+      "number": 9,
+      "section": "3d",
+      "space": "3d",
+      "title": "Arsitek 3D",
+      "tagline": "Pasang rumah di koordinat yang diminta",
+      "intro": "Kamu jadi arsitek! Atur x, y, dan z sampai rumah tepat di target, lalu tekan **Pasang Rumah**.",
+      "seconds": 75,
+      "challenges": [
+        { "id": "L9-1", "kind": "plot3d", "text": "Pasang rumah di **(1, 2, 3)**.", "target": [1, 2, 3] },
+        { "id": "L9-2", "kind": "plot3d", "text": "Pasang rumah di **(3, 1, 1)**.", "target": [3, 1, 1] },
+        { "id": "L9-3", "kind": "plot3d", "text": "Pasang rumah di **(2, 4, 2)**.", "target": [2, 4, 2] },
+        { "id": "L9-4", "kind": "plot3d", "text": "Pasang rumah di **(4, 3, 5)**. Tinggi sekali!", "target": [4, 3, 5] }
+      ]
+    },
+    {
+      "id": "L10",
+      "number": 10,
+      "section": "3d",
+      "space": "3d",
+      "title": "Temukan Rumah",
+      "tagline": "Pilih 1 rumah yang benar dari 4",
+      "intro": "Ada 4 rumah dengan posisi mirip, tapi hanya **satu** yang tepat. Putar kamera untuk memeriksa x, y, dan z.",
+      "seconds": 60,
+      "challenges": [
+        {
+          "id": "L10-1",
+          "kind": "find3d",
+          "text": "🔎 Temukan rumah di **(3, 2, 1)**.",
+          "target": [3, 2, 1],
+          "houses": [
+            { "label": "A", "at": [2, 3, 1] },
+            { "label": "B", "at": [3, 2, 1] },
+            { "label": "C", "at": [3, 2, 3] },
+            { "label": "D", "at": [-3, 2, 1] }
+          ]
+        },
+        {
+          "id": "L10-2",
+          "kind": "find3d",
+          "text": "🔎 Temukan rumah di **(1, 4, 2)**.",
+          "target": [1, 4, 2],
+          "houses": [
+            { "label": "A", "at": [1, 4, 2] },
+            { "label": "B", "at": [4, 1, 2] },
+            { "label": "C", "at": [1, 4, 0] },
+            { "label": "D", "at": [1, -4, 2] }
+          ]
+        },
+        {
+          "id": "L10-3",
+          "kind": "find3d",
+          "text": "🔎 Temukan rumah di **(2, 2, 4)**.",
+          "target": [2, 2, 4],
+          "houses": [
+            { "label": "A", "at": [4, 2, 2] },
+            { "label": "B", "at": [2, 2, 2] },
+            { "label": "C", "at": [2, 4, 4] },
+            { "label": "D", "at": [2, 2, 4] }
+          ]
         }
       ]
     },
     {
-      "id": "L3",
-      "number": 3,
-      "title": "Final Quest",
-      "tagline": "Pasang rumah 3D di koordinat target",
-      "intro": "Atur x, y, dan z sampai rumah tepat di target, lalu tekan **Pasang Rumah**. Salah pasang = nyawa berkurang!",
+      "id": "L11",
+      "number": 11,
+      "section": "lanjut",
+      "space": "3d",
+      "camera": "low",
+      "title": "Sisi Negatif 3D",
+      "tagline": "x dan y negatif di ruang 3D",
+      "intro": "Ruang 3D juga punya sisi negatif: x negatif = **kiri**, y negatif = **depan**. Kamera dimulai dari sudut lain, jadi baca arahnya dengan teliti!",
+      "seconds": 75,
+      "challenges": [
+        { "id": "L11-1", "kind": "read3d", "text": "Tulis koordinat rumah ini (x, y, z).", "point": [-2, 3, 1] },
+        { "id": "L11-2", "kind": "read3d", "text": "Tulis koordinat rumah ini (x, y, z).", "point": [3, -2, 2] },
+        { "id": "L11-3", "kind": "plot3d", "text": "Pasang rumah di **(−3, −2, 3)**.", "target": [-3, -2, 3] },
+        {
+          "id": "L11-4",
+          "kind": "find3d",
+          "text": "🔎 Temukan rumah di **(−2, −3, 2)**.",
+          "target": [-2, -3, 2],
+          "houses": [
+            { "label": "A", "at": [2, -3, 2] },
+            { "label": "B", "at": [-2, 3, 2] },
+            { "label": "C", "at": [-2, -3, 2] },
+            { "label": "D", "at": [-3, -2, 2] }
+          ]
+        },
+        { "id": "L11-5", "kind": "plot3d", "text": "Pasang rumah di **(−1, 4, 2)**.", "target": [-1, 4, 2] }
+      ]
+    },
+    {
+      "id": "L12",
+      "number": 12,
+      "section": "lanjut",
+      "space": "3d",
+      "camera": "side",
+      "title": "Bandingkan Posisi",
+      "tagline": "Lebih tinggi, lebih kanan, atau lebih depan?",
+      "intro": "Bandingkan dua rumah dengan melihat **satu angka saja** yang sesuai pertanyaan: x untuk kanan/kiri, y untuk depan/belakang, z untuk tinggi.",
+      "seconds": 45,
+      "challenges": [
+        {
+          "id": "L12-1",
+          "kind": "choice",
+          "text": "Rumah A di (2, 1, 4), rumah B di (−1, 3, 2). Mana yang **lebih kanan**?",
+          "houses": [{ "label": "A", "at": [2, 1, 4] }, { "label": "B", "at": [-1, 3, 2] }],
+          "options": [
+            { "text": "Rumah A, karena x-nya lebih besar", "correct": true },
+            { "text": "Rumah B, karena y-nya lebih besar" },
+            { "text": "Rumah A, karena z-nya lebih besar" }
+          ]
+        },
+        {
+          "id": "L12-2",
+          "kind": "choice",
+          "text": "Rumah A di (3, −2, 1), rumah B di (3, 2, 1). Mana yang **lebih depan**?",
+          "houses": [{ "label": "A", "at": [3, -2, 1] }, { "label": "B", "at": [3, 2, 1] }],
+          "options": [
+            { "text": "Rumah A, karena y-nya negatif", "correct": true },
+            { "text": "Rumah B, karena y-nya positif" },
+            { "text": "Sama, karena x dan z-nya sama" }
+          ]
+        },
+        {
+          "id": "L12-3",
+          "kind": "choice",
+          "text": "Rumah A di (−4, 0, 3), rumah B di (4, 0, 3). Bagaimana ketinggian keduanya?",
+          "houses": [{ "label": "A", "at": [-4, 0, 3] }, { "label": "B", "at": [4, 0, 3] }],
+          "options": [
+            { "text": "Sama tinggi, karena z-nya sama-sama 3", "correct": true },
+            { "text": "Rumah B lebih tinggi, karena x-nya positif" },
+            { "text": "Rumah A lebih tinggi, karena x-nya negatif" }
+          ]
+        },
+        {
+          "id": "L12-4",
+          "kind": "choice",
+          "text": "Mana titik yang **paling dekat ke lantai**?",
+          "options": [{ "text": "(5, 5, 0)", "correct": true }, { "text": "(0, 0, 2)" }, { "text": "(1, 1, 1)" }]
+        }
+      ]
+    },
+    {
+      "id": "L13",
+      "number": 13,
+      "section": "lanjut",
+      "space": "3d",
+      "title": "Langkah demi Langkah",
+      "tagline": "Hitung posisi akhir setelah bergerak",
+      "intro": "Drone bergerak dari satu titik ke titik lain. Ke kanan **menambah x**, ke depan **mengurangi y**, naik **menambah z**. Hitung posisi akhirnya, lalu pasang rumah di sana.",
       "seconds": 90,
       "challenges": [
-        { "id": "L3-1", "kind": "plot3d", "text": "Pasang rumah di **(3, 4, 2)**.", "target": [3, 4, 2] },
-        { "id": "L3-2", "kind": "plot3d", "text": "Pasang rumah di **(−2, 3, 1)**.", "target": [-2, 3, 1] },
-        { "id": "L3-3", "kind": "plot3d", "text": "Pasang rumah di **(4, −3, 3)**.", "target": [4, -3, 3] },
-        { "id": "L3-4", "kind": "plot3d", "text": "Pasang rumah di **(0, 5, 2)**.", "target": [0, 5, 2] },
-        { "id": "L3-5", "kind": "plot3d", "text": "Pasang rumah di **(−4, −2, 4)**.", "target": [-4, -2, 4] }
+        {
+          "id": "L13-1",
+          "kind": "plot3d",
+          "text": "Drone mulai di **(1, 2, 0)**. Ia terbang ke **kanan 2**, lalu **naik 3**. Pasang rumah di posisi akhirnya.",
+          "target": [3, 2, 3]
+        },
+        {
+          "id": "L13-2",
+          "kind": "plot3d",
+          "text": "Drone mulai di **(0, 0, 4)**. Ia bergerak ke **kiri 3**, lalu **turun 2**. Di mana posisinya sekarang?",
+          "target": [-3, 0, 2]
+        },
+        {
+          "id": "L13-3",
+          "kind": "plot3d",
+          "text": "Drone mulai di **(2, 3, 1)**. Ia bergerak ke **depan 5** (y berkurang 5), lalu **naik 1**. Pasang rumah di posisi akhirnya.",
+          "target": [2, -2, 2]
+        },
+        {
+          "id": "L13-4",
+          "kind": "choice",
+          "text": "Dari (4, 1, 2), drone **naik 3**. Koordinat yang berubah hanya…",
+          "options": [{ "text": "z (menjadi 5)", "correct": true }, { "text": "x (menjadi 7)" }, { "text": "y (menjadi 4)" }]
+        }
+      ]
+    },
+    {
+      "id": "L14",
+      "number": 14,
+      "section": "lanjut",
+      "space": "3d",
+      "camera": "low",
+      "noGuides": true,
+      "title": "Cerita Kota",
+      "tagline": "Soal cerita literasi matematika",
+      "intro": "Ubah cerita menjadi koordinat! Cari dulu **apa yang diketahui** (posisi di lantai dan ketinggian), lalu tulis sebagai (x, y, z). Di level ini tidak ada garis bantu.",
+      "seconds": 90,
+      "challenges": [
+        {
+          "id": "L14-1",
+          "kind": "plot3d",
+          "text": "📦 Kurir mengantar paket ke apartemen di alamat lantai **(−2, 3)**, di **lantai ke-4** (z = 4). Pasang rumah di tujuan paket.",
+          "target": [-2, 3, 4]
+        },
+        {
+          "id": "L14-2",
+          "kind": "plot3d",
+          "text": "💡 Lampu taman berdiri di titik **(3, −1)** dengan tinggi **2**. Pasang rumah di ujung atas lampu.",
+          "target": [3, -1, 2]
+        },
+        {
+          "id": "L14-3",
+          "kind": "choice",
+          "text": "🐦 Burung terbang di (2, 2, 5) dan drone di (2, 2, 3). Berapa selisih tinggi burung dan drone?",
+          "houses": [{ "label": "A", "at": [2, 2, 5] }, { "label": "B", "at": [2, 2, 3] }],
+          "options": [{ "text": "2", "correct": true }, { "text": "8" }, { "text": "0, karena x dan y-nya sama" }]
+        },
+        { "id": "L14-4", "kind": "read3d", "text": "🎈 Sebuah balon tersangkut di udara. Laporkan posisinya ke petugas dalam bentuk (x, y, z).", "point": [1, -3, 4] }
+      ]
+    },
+    {
+      "id": "L15",
+      "number": 15,
+      "section": "lanjut",
+      "space": "3d",
+      "noGuides": true,
+      "noNumbers": true,
+      "title": "Final Boss",
+      "tagline": "Semua jenis soal, tanpa angka & tanpa garis bantu",
+      "intro": "Ini ujian terakhir! **Angka grid disembunyikan** dan **tidak ada garis bantu**. Hitung kotaknya sendiri dari titik O. Semangat, Master Koordinat!",
+      "seconds": 75,
+      "challenges": [
+        { "id": "L15-1", "kind": "read3d", "text": "Tulis koordinat rumah ini (x, y, z).", "point": [-3, 2, 3] },
+        { "id": "L15-2", "kind": "plot3d", "text": "Pasang rumah di **(4, −2, 1)**.", "target": [4, -2, 1] },
+        {
+          "id": "L15-3",
+          "kind": "find3d",
+          "text": "🔎 Temukan rumah di **(3, −3, 3)**.",
+          "target": [3, -3, 3],
+          "houses": [
+            { "label": "A", "at": [-3, 3, 3] },
+            { "label": "B", "at": [3, -3, 1] },
+            { "label": "C", "at": [3, 3, 3] },
+            { "label": "D", "at": [3, -3, 3] }
+          ]
+        },
+        {
+          "id": "L15-4",
+          "kind": "plot3d",
+          "text": "Drone mulai di **(−1, −1, 0)**. Ia terbang ke **kiri 3** lalu **naik 2**. Pasang rumah di posisi akhirnya.",
+          "target": [-4, -1, 2]
+        },
+        { "id": "L15-5", "kind": "read3d", "text": "Rumah terakhir! Tulis koordinatnya (x, y, z).", "point": [2, -4, 5] }
       ]
     }
   ]

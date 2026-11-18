@@ -1,4 +1,4 @@
-# c-quest.sn25 — Kode Sumber
+# cartes.play — Kode Sumber
 
 Aplikasi belajar Sistem Koordinat Kartesius (Kelas 8 SMP) lewat peta kota.
 Dibuat dengan React 18, React Router 6 (HashRouter), Tailwind CSS 3, CSS Modules, dan three.js (Kota 3D).

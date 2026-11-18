@@ -1,6 +1,7 @@
 import { useRef, useState } from 'react';
 import { Link, useParams } from 'react-router-dom';
 import CoordinatePlane from '../components/CoordinatePlane.jsx';
+import { CosmicPage, FOCUS, GlowTitle, NeonFrame } from '../components/cosmic/Cosmic.jsx';
 import { LessonStep } from '../components/LessonPlayer.jsx';
 import lessonStyles from '../components/LessonPlayer.module.css';
 import { BUILDINGS } from '../data/buildings.js';
@@ -32,15 +33,15 @@ function builtIds(base, missions, progress) {
   return [...set];
 }
 
-function Stars({ value, size = 'h-5 w-5' }) {
+function Stars({ value, size = 'h-5 w-5', dark = false }) {
   return (
     <span className="inline-flex gap-0.5" role="img" aria-label={`${value} dari 3 bintang`}>
       {[1, 2, 3].map((n) => (
         <svg key={n} viewBox="0 0 24 24" className={size} aria-hidden="true">
           <path
             d="M12 3l2.6 5.6 6.1.7-4.5 4.2 1.2 6L12 16.6 6.6 19.5l1.2-6-4.5-4.2 6.1-.7z"
-            fill={n <= value ? '#fbbf24' : '#e2e8f0'}
-            stroke={n <= value ? '#b45309' : '#cbd5e1'}
+            fill={n <= value ? '#fbbf24' : dark ? '#334155' : '#e2e8f0'}
+            stroke={n <= value ? '#b45309' : dark ? '#475569' : '#cbd5e1'}
             strokeWidth="1.5"
             strokeLinejoin="round"
           />
@@ -66,62 +67,91 @@ export default function MissionsPage() {
       </section>
     );
   }
-  return <MissionPlayer key={mission.id} mission={mission} />;
+  return (
+    <CosmicPage>
+      <div className="cosmic-panel">
+        <MissionPlayer key={mission.id} mission={mission} />
+      </div>
+    </CosmicPage>
+  );
 }
 
 function MissionList() {
   const { state } = useProgress();
   const built = builtIds(missionData.base, MISSIONS, state.missions);
   const builtNew = ALL_NEW_BUILDINGS.filter((id) => built.includes(id)).length;
+  const remaining = ALL_NEW_BUILDINGS.length - builtNew;
   const totalStars = MISSIONS.reduce((sum, m) => sum + (state.missions[m.id]?.stars ?? 0), 0);
+  const listRef = useRef(null);
 
   return (
-    <div className="space-y-5 pb-4">
-      <section className="rounded-3xl border-2 border-blue-200 bg-white/95 p-4 shadow-lg shadow-blue-900/10 sm:p-5">
+    <CosmicPage>
+      <GlowTitle className="py-2 text-[2.3rem] sm:text-6xl">Misi Bangun Kota</GlowTitle>
+
+      {/* Panel peta neon */}
+      <NeonFrame className="mx-auto mt-6 max-w-[640px]">
         <div className="flex flex-wrap items-baseline justify-between gap-2">
-          <h2 className="m-0 text-xl font-extrabold text-blue-950">Peta Kota</h2>
-          <span className="text-sm font-bold text-blue-700">
-            ★ {totalStars} dari {MISSIONS.length * 3} bintang
+          <h3 className="m-0 text-xl font-bold text-white sm:text-2xl">Peta Kota Cartesius</h3>
+          <span className="text-sm font-bold text-sky-300 sm:text-base">
+            ★ {totalStars} dari {MISSIONS.length * 3} Bintang
           </span>
         </div>
-        <p className="m-0 mt-1 text-sm text-slate-600">
-          {builtNew} dari {ALL_NEW_BUILDINGS.length} bangunan baru sudah dibangun. Selesaikan misi agar kota tumbuh.
+        <p className="m-0 mt-1 text-sm text-indigo-100 sm:text-base">
+          {remaining > 0
+            ? `Tersisa ${remaining} bangunan baru untuk dibangun. Selesaikan misi agar kota tumbuh.`
+            : 'Semua bangunan sudah dibangun. Kotamu lengkap! 🎉'}
         </p>
-        <div className="mx-auto mt-3 max-w-sm">
-          <CoordinatePlane range={10} buildings={built.map((id) => BUILDING_BY_ID[id]).filter(Boolean)} />
+        <div className="relative mx-auto mt-3 max-w-md">
+          <CoordinatePlane range={10} theme="dark" buildings={built.map((id) => BUILDING_BY_ID[id]).filter(Boolean)} />
+          <button
+            type="button"
+            onClick={() => listRef.current?.scrollIntoView({ behavior: 'smooth', block: 'start' })}
+            aria-label="Lihat daftar misi"
+            className={`absolute -bottom-2 -right-2 flex h-14 w-14 cursor-pointer items-center justify-center rounded-full border-[3px] border-sky-200 bg-gradient-to-b from-sky-400 to-blue-700 text-3xl shadow-[0_0_20px_rgba(56,189,248,.8)] transition hover:scale-110 sm:h-16 sm:w-16 ${FOCUS}`}
+          >
+            🧭
+          </button>
         </div>
-      </section>
+      </NeonFrame>
 
-      <ol className="m-0 grid list-none gap-3 p-0 sm:grid-cols-2">
+      {/* Daftar misi */}
+      <h3 ref={listRef} className="m-0 mx-auto mt-8 max-w-[640px] scroll-mt-24 text-xl font-bold text-white">
+        🚧 Daftar Misi
+      </h3>
+      <ol className="m-0 mx-auto mt-3 grid max-w-[640px] list-none gap-3 p-0 sm:grid-cols-2">
         {MISSIONS.map((m, i) => {
           const stars = state.missions[m.id]?.stars ?? 0;
           return (
             <li key={m.id}>
               <Link
                 to={`/misi/${m.id}`}
-                className={`flex h-full items-center gap-3 rounded-3xl border-2 p-4 no-underline shadow-lg shadow-blue-900/10 transition duration-200 hover:-translate-y-1 hover:shadow-xl ${stars ? 'border-blue-400 bg-gradient-to-br from-blue-50 to-white' : 'border-blue-200 bg-white hover:border-blue-400'}`}
+                className={`flex h-full items-center gap-3 rounded-3xl border-2 p-4 text-white no-underline backdrop-blur-sm transition duration-200 hover:-translate-y-1 ${stars ? 'border-amber-300/70 bg-amber-400/10 shadow-[0_0_18px_rgba(251,191,36,.25)]' : 'border-sky-400/40 bg-white/5 hover:border-sky-300 hover:shadow-[0_0_20px_rgba(56,189,248,.35)]'} ${FOCUS}`}
               >
                 <span
-                  className={`flex h-12 w-12 flex-none items-center justify-center rounded-2xl text-lg font-black ${stars ? 'bg-blue-700 text-white' : 'bg-blue-50 text-blue-700'}`}
+                  className={`flex h-12 w-12 flex-none items-center justify-center rounded-2xl text-lg font-bold ${stars ? 'bg-gradient-to-b from-amber-300 to-orange-500 text-amber-950' : 'bg-gradient-to-b from-sky-400 to-indigo-600 text-white'}`}
                   aria-hidden="true"
                 >
                   {i + 1}
                 </span>
                 <span className="min-w-0 flex-1">
-                  <span className="block text-xs font-bold uppercase tracking-wider text-blue-600">Misi {i + 1}</span>
-                  <span className="block font-extrabold leading-snug text-blue-950">{m.title}</span>
-                  <span className="block text-sm leading-snug text-slate-600">{m.summary}</span>
+                  <span className="block text-xs font-bold uppercase tracking-wider text-sky-300">Misi {i + 1}</span>
+                  <span className="block font-bold leading-snug">{m.title}</span>
+                  <span className="block text-sm leading-snug text-indigo-100">{m.summary}</span>
                 </span>
-                <span className="flex flex-none flex-col items-end gap-1">
-                  <Stars value={stars} size="h-4 w-4" />
-                  <span className="text-xs font-bold text-blue-700">{stars ? 'Ulangi' : 'Mulai'}</span>
+                <span className="flex flex-none flex-col items-end gap-1.5">
+                  <Stars value={stars} size="h-4 w-4" dark />
+                  <span
+                    className={`rounded-full px-3 py-1 text-xs font-bold shadow-[0_3px_0_rgba(0,0,0,.35)] ${stars ? 'bg-white/15 text-amber-200' : 'bg-gradient-to-r from-sky-400 to-indigo-500 text-white'}`}
+                  >
+                    {stars ? '↻ Ulangi' : '▶ Mulai'}
+                  </span>
                 </span>
               </Link>
             </li>
           );
         })}
       </ol>
-    </div>
+    </CosmicPage>
   );
 }
 

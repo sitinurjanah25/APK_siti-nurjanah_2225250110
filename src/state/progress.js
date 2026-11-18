@@ -12,7 +12,7 @@ export const INITIAL_PROGRESS = Object.freeze({
   errorCounts: {},
   settings: { reducedMotion: false, showQuadrantLabels: true },
   trial: null,
-  quest: { best: {}, cleared: {} },
+  quest: { best: {}, cleared: {}, medals: {}, difficulty: 'easy' },
 });
 
 export const ACTIONS = Object.freeze({
@@ -24,8 +24,12 @@ export const ACTIONS = Object.freeze({
   UPDATE_SETTINGS: 'UPDATE_SETTINGS',
   SET_TRIAL: 'SET_TRIAL',
   QUEST_RESULT: 'QUEST_RESULT',
+  QUEST_DIFFICULTY: 'QUEST_DIFFICULTY',
   RESET: 'RESET',
 });
+
+/** Data Quest lengkap (progres lama mungkin belum punya semua kolom). */
+export const questOf = (state) => ({ ...INITIAL_PROGRESS.quest, ...(state?.quest ?? {}) });
 
 export function progressReducer(state, action) {
   switch (action.type) {
@@ -61,16 +65,25 @@ export function progressReducer(state, action) {
       return { ...state, trial: action.trial };
 
     case ACTIONS.QUEST_RESULT: {
-      const quest = state.quest ?? INITIAL_PROGRESS.quest;
+      const quest = questOf(state);
       const prevBest = quest.best[action.levelId] ?? 0;
+      const prevMedal = quest.medals[action.levelId] ?? 0;
       return {
         ...state,
         quest: {
+          ...quest,
           best: { ...quest.best, [action.levelId]: Math.max(prevBest, action.score) },
           cleared: action.cleared ? { ...quest.cleared, [action.levelId]: true } : quest.cleared,
+          // medali = peringkat kesulitan tertinggi yang pernah lulus (1 easy, 2 medium, 3 hard)
+          medals: action.cleared
+            ? { ...quest.medals, [action.levelId]: Math.max(prevMedal, action.rank ?? 1) }
+            : quest.medals,
         },
       };
     }
+
+    case ACTIONS.QUEST_DIFFICULTY:
+      return { ...state, quest: { ...questOf(state), difficulty: action.difficulty } };
 
     case ACTIONS.RESET:
       return { ...INITIAL_PROGRESS, settings: state.settings };
