@@ -1,5 +1,6 @@
 import { useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
+import SoundToggle from './SoundToggle.jsx';
 import styles from './AppShell.module.css';
 import { CosmicPage } from './cosmic/Cosmic.jsx';
 
@@ -41,6 +42,7 @@ export default function AppShell({ title, back = false, wide = false, theme, chi
           <span className={styles.spacer} aria-hidden="true" />
         )}
         <h1 className={styles.title}>{title}</h1>
+        <SoundToggle className={`${styles.back} ${styles.sound}`} />
       </header>
       <main className={`${styles.main} ${wide ? styles.wide : ''} motion-safe:animate-page-in`}>
         {theme === 'cosmic' || theme === 'panel' ? (

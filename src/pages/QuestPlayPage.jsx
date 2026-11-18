@@ -33,6 +33,7 @@ import {
 import { useTutorContext } from '../lib/tutor.js';
 import { ACTIONS, questOf } from '../state/progress.js';
 import { useProgress } from '../state/ProgressContext.jsx';
+import { sfx } from '../lib/sfx.js';
 
 const QuestScene = lazy(() => import('../three/QuestScene.jsx'));
 
@@ -181,6 +182,7 @@ function QuestRun({ level, difficulty, onRestart }) {
   const answer = (value) => {
     if (challenge.kind === 'find3d') setLastPick(value);
     const result = checkAnswer(challenge, value);
+    sfx.answer(result.correct);
     send({ type: 'ANSWER', ...result });
     return result.correct;
   };

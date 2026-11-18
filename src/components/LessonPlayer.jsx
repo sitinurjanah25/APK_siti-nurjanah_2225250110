@@ -13,6 +13,7 @@ import CoordinatePlane from './CoordinatePlane.jsx';
 import FeedbackPanel from './FeedbackPanel.jsx';
 import RichText from './RichText.jsx';
 import styles from './LessonPlayer.module.css';
+import { sfx } from '../lib/sfx.js';
 
 const BUILDING_BY_ID = Object.fromEntries(BUILDINGS.map((b) => [b.id, b]));
 
@@ -145,6 +146,7 @@ export function LessonStep({ step, fadeHints, onNext, onPrev, isLast }) {
     const diagnosis = diagnoseStep(step, answer);
     if (step.kind !== 'reflect') dispatch({ type: ACTIONS.RECORD_DIAGNOSIS, diagnosis });
     if (diagnosis !== DIAG.CORRECT) setWrongCount((n) => n + 1);
+    if (step.kind !== 'reflect') sfx.answer(diagnosis === DIAG.CORRECT);
     setResult({ diagnosis, message: feedbackMessage(step, diagnosis, answer) });
   };
 

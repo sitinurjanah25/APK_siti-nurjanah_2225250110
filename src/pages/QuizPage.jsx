@@ -4,7 +4,8 @@ import { CosmicPage, FOCUS, GAME_FONT, HudButton } from '../components/cosmic/Co
 import Confetti from '../components/quest/Confetti.jsx';
 import RichText, { Inline } from '../components/RichText.jsx';
 import quiz from '../data/quiz.json';
-import { setMuted, sfx, useMuted } from '../lib/sfx.js';
+import { sfx } from '../lib/sfx.js';
+import SoundToggle from '../components/SoundToggle.jsx';
 import { countCorrect, saveBestScore, scoreMessage } from '../lib/quiz.js';
 import {
   attemptsOf,
@@ -103,25 +104,6 @@ function MiniGrid({ points = [], showLabels = false }) {
 
 /* ---------- HUD ---------- */
 
-/** Tombol suara aktif/bisu. Pilihan disimpan, jadi tetap berlaku saat aplikasi dibuka lagi. */
-function SoundToggle() {
-  const muted = useMuted();
-  return (
-    <HudButton
-      onClick={() => {
-        setMuted(!muted);
-        if (muted) sfx.click(); // bunyi kecil sebagai tanda suara aktif lagi
-      }}
-      aria-pressed={!muted}
-      aria-label={muted ? 'Suara mati. Ketuk untuk menyalakan.' : 'Suara menyala. Ketuk untuk mematikan.'}
-      title={muted ? 'Nyalakan suara' : 'Matikan suara'}
-      className="h-9 text-lg"
-    >
-      <span aria-hidden="true">{muted ? '🔇' : '🔊'}</span>
-    </HudButton>
-  );
-}
-
 function Hud({ score, index, onSettings, settingsOpen }) {
   return (
     <div className="sticky top-[calc(var(--header-h)+var(--safe-top)+6px)] z-[6] mx-auto flex max-w-[560px] items-center justify-center gap-2 rounded-2xl border-2 border-indigo-300/40 bg-[#160f45]/85 px-3 py-1 text-sm shadow-[0_0_20px_rgba(129,140,248,.35)] backdrop-blur-md sm:gap-3 sm:text-base">
@@ -133,7 +115,7 @@ function Hud({ score, index, onSettings, settingsOpen }) {
         <span aria-hidden="true">📝</span> {index + 1}/{TOTAL}
       </span>
       <span className="text-indigo-300/60" aria-hidden="true">|</span>
-      <SoundToggle />
+      <SoundToggle as={HudButton} className="h-9 text-lg" />
       <HudButton onClick={onSettings} aria-expanded={settingsOpen} aria-controls="quiz-settings" className="h-9">
         <span aria-hidden="true">⚙️</span>
         <span className="hidden sm:inline">Pengaturan</span>

@@ -53,3 +53,10 @@
 .wide {
   max-width: 920px
 }
+
+/* Tombol suara 🔊 di kanan atas */
+.sound {
+  margin-left: auto;
+  flex-shrink: 0;
+  font-size: 1.25rem
+}

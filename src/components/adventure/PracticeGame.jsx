@@ -20,6 +20,7 @@ import Confetti from '../quest/Confetti.jsx';
 import Coordinate3Input from '../quest/Coordinate3Input.jsx';
 import QuestHud from '../quest/QuestHud.jsx';
 import SuccessBurst from '../quest/SuccessBurst.jsx';
+import { sfx } from '../../lib/sfx.js';
 
 const QuestScene = lazy(() => import('../../three/QuestScene.jsx'));
 
@@ -136,6 +137,7 @@ function PracticeRun({ level, difficulty, onExit, onAgain }) {
         last: diagnosePoint3(target, value),
       }));
     }
+    sfx.answer(result.correct);
     send({ type: 'ANSWER', ...result });
   };
 

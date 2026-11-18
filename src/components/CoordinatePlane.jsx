@@ -11,16 +11,19 @@ import {
   toSvg,
   useElementWidth,
 } from '../lib/grid.js';
+import { sfx } from '../lib/sfx.js';
 import BuildingSymbols from './BuildingSymbols.jsx';
 import styles from './CoordinatePlane.module.css';
 
 /** Sumbu, angka, panah, label kuadran. `u(px)` mengubah piksel ke unit SVG. */
 function AxesBase({ range, u, highlight, showQuadrants, showNumbers = true }) {
-  const numSize = u(13);
   const end = range + 0.85;
   const arrowLen = u(12);
   const arrowHalf = u(6);
   const step = range > 5 ? 2 : 1;
+  // Ukuran angka ikut mengecil di layar HP yang sempit (maks. 0,42 × jarak antar-angka)
+  // supaya angka tidak berhimpitan satu sama lain maupun dengan "O".
+  const numSize = Math.min(u(13), 0.42 * step);
   const nums = showNumbers ? ticks(range, step).filter((n) => n !== 0) : [];
   const dimX = highlight === 'y' ? styles.dim : '';
   const dimY = highlight === 'x' ? styles.dim : '';
@@ -55,7 +58,14 @@ function AxesBase({ range, u, highlight, showQuadrants, showNumbers = true }) {
           X
         </text>
         {nums.map((n) => (
-          <text key={n} x={n} y={u(17)} textAnchor="middle" fontSize={numSize} className={styles.numX}>
+          <text
+            key={n}
+            x={n < 0 ? n - numSize * 0.22 : n}
+            y={u(5) + numSize}
+            textAnchor="middle"
+            fontSize={numSize}
+            className={`${styles.halo} ${styles.numX}`}
+          >
             {fmtNum(n)}
           </text>
         ))}
@@ -71,13 +81,21 @@ function AxesBase({ range, u, highlight, showQuadrants, showNumbers = true }) {
           Y
         </text>
         {nums.map((n) => (
-          <text key={n} x={-u(7)} y={-n + u(4.5)} textAnchor="end" fontSize={numSize} className={styles.numY}>
+          <text
+            key={n}
+            x={-u(6)}
+            y={-n + numSize * 0.35}
+            textAnchor="end"
+            fontSize={numSize}
+            className={`${styles.halo} ${styles.numY}`}
+          >
             {fmtNum(n)}
           </text>
         ))}
       </g>
 
-      <text x={-u(6)} y={u(16)} textAnchor="end" fontSize={numSize} className={styles.origin}>
+      {/* Titik asal O di kiri-atas pusat, supaya tidak menempel dengan angka −1 di sumbu X dan Y */}
+      <text x={-u(5)} y={-u(5)} textAnchor="end" fontSize={numSize} className={`${styles.halo} ${styles.origin}`}>
         O
       </text>
     </g>
@@ -209,7 +227,9 @@ function SelectedPoint({ point, range, u, showLabel = true }) {
   const nearTop = y >= range - 1;
   return (
     <g aria-hidden="true">
-      <circle cx={sx} cy={sy} r={u(7)} className={styles.point} />
+      {/* Lingkaran samar = area sentuh jari (± 44 px) */}
+      <circle cx={sx} cy={sy} r={u(22)} className={styles.pointRing} />
+      <circle cx={sx} cy={sy} r={u(9)} className={styles.point} />
       {showLabel && <text
         x={nearRight ? sx - u(10) : sx + u(10)}
         y={nearTop ? sy + u(22) : sy - u(10)}
@@ -261,8 +281,13 @@ function WalkPath({ path, u }) {
   );
 }
 
-/** Jarak maksimal (px) dari titik grid supaya ketukan dianggap mengenai titik itu. */
-const SNAP_PX = 24;
+/**
+ * Jarak maksimal dari titik grid supaya ketukan dianggap mengenai titik itu.
+ * Minimal 32 px (ujung jari ± 44 px), dan minimal 0,75 kotak supaya di HP
+ * ketukan di mana pun di dalam grid selalu "menempel" ke titik terdekat.
+ */
+const SNAP_PX = 32;
+const SNAP_MIN_UNITS = 0.75;
 
 const ARROW_KEYS = {
   ArrowLeft: [-1, 0],
@@ -299,8 +324,10 @@ export default function CoordinatePlane({
     const rect = svgRef.current.getBoundingClientRect();
     const svgPoint = clientToSvg(rect, e.clientX, e.clientY, range);
     if (!svgPoint) return;
-    const p = snapToGrid(fromSvg(svgPoint), range, u(SNAP_PX));
-    if (p) onSelect(p);
+    const p = snapToGrid(fromSvg(svgPoint), range, Math.max(u(SNAP_PX), SNAP_MIN_UNITS));
+    if (!p) return;
+    sfx.tap();
+    onSelect(p);
   };
 
   const handleKeyDown = (e) => {
