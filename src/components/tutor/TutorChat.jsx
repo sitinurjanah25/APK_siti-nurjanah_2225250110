@@ -1,20 +1,11 @@
 import { useEffect, useRef, useState } from 'react';
 import { useLocation } from 'react-router-dom';
+import { GREETING as GREETING_TEXT, HELP_MODES, QUICK_PROMPTS } from '../../data/tutor.js';
 import { askTutor, hintLevelFor, tutorReady, useTutorSnapshot } from '../../lib/tutor.js';
+import HelpModePicker from './HelpModePicker.jsx';
+import RmtStageBar from './RmtStageBar.jsx';
 
-const GREETING = {
-  role: 'assistant',
-  content:
-    'Hai! Aku **Kak Carta** 👋 Aku tidak akan langsung kasih jawaban, tapi aku bantu kamu berpikir langkah demi langkah. Kamu lagi bingung di bagian mana?',
-};
-
-/** Pertanyaan cepat. Disusun mengikuti tahap RMT: orientasi → konsep → langkah → refleksi. */
-const QUICK = [
-  { label: '🤔 Bingung mulai dari mana', text: 'Aku bingung harus mulai dari mana.' },
-  { label: '📐 Ingatkan konsepnya', text: 'Tolong ingatkan konsep yang dipakai di soal ini.' },
-  { label: '👣 Langkah berikutnya?', text: 'Apa langkah berikutnya yang harus aku lakukan?' },
-  { label: '✅ Cek cara berpikirku', text: 'Aku mau cek apakah cara berpikirku sudah benar.' },
-];
+const GREETING = { role: 'assistant', content: GREETING_TEXT };
 
 const SCREEN_BY_PATH = [
   ['/quest', 'Quest level'],
@@ -25,8 +16,18 @@ const SCREEN_BY_PATH = [
   ['/kota-3d', 'Kota 3D'],
 ];
 
+/** Bersihkan format yang tidak perlu (LaTeX $…$, miring *…*, judul #) supaya teks tetap tenang dibaca. */
+const tidy = (text) =>
+  text
+    .replace(/\$+([^$]*)\$+/g, '$1') // $(-3, 2)$ → (-3, 2)
+    .replace(/\\[()[\]]/g, '') // \( … \) dan \[ … \]
+    .replace(/(^|[^*])\*([^*\n]+)\*(?!\*)/g, '$1$2') // *miring* → teks biasa (**tebal** tetap)
+    .replace(/^#+\s*/gm, ''); // judul markdown
+
 function Bold({ text }) {
-  return text.split(/\*\*(.+?)\*\*/g).map((p, i) => (i % 2 ? <strong key={i}>{p}</strong> : p));
+  return tidy(text)
+    .split(/\*\*(.+?)\*\*/g)
+    .map((p, i) => (i % 2 ? <strong key={i}>{p}</strong> : p));
 }
 
 /** Tombol mengambang + panel chat Asisten Belajar. */
@@ -37,6 +38,8 @@ export default function TutorChat() {
   const [busy, setBusy] = useState(false);
   const [error, setError] = useState(null);
   const [help, setHelp] = useState({ key: '', count: 0 });
+  const [helpMode, setHelpMode] = useState('auto'); // Intrinsic Load: tingkat bantuan pilihan siswa
+  const [stage, setStage] = useState(null); // tahap RMT terakhir dari server
   const ctx = useTutorSnapshot();
   const { pathname } = useLocation();
   const listRef = useRef(null);
@@ -45,6 +48,16 @@ export default function TutorChat() {
   // Jumlah permintaan bantuan dihitung per soal.
   const taskKey = ctx.taskId ?? pathname;
   const helpCount = help.key === taskKey ? help.count : 0;
+  const autoLevel = hintLevelFor(ctx.wrongAttempts ?? 0, helpCount);
+  const chosenLevel = HELP_MODES.find((m) => m.id === helpMode)?.level ?? null;
+
+  const reset = () => {
+    abortRef.current?.abort();
+    setMessages([GREETING]);
+    setStage(null);
+    setError(null);
+    setBusy(false);
+  };
 
   useEffect(() => {
     listRef.current?.scrollTo({ top: listRef.current.scrollHeight, behavior: 'smooth' });
@@ -71,7 +84,13 @@ export default function TutorChat() {
     }
 
     const screen = ctx.screen ?? SCREEN_BY_PATH.find(([p]) => pathname.startsWith(p))?.[1] ?? 'Beranda';
-    const context = { ...ctx, screen, hintLevel: hintLevelFor(ctx.wrongAttempts ?? 0, count - 1) };
+    const context = {
+      ...ctx,
+      screen,
+      // Pilihan siswa diutamakan; kalau "Otomatis", level naik sesuai kesalahan & permintaan bantuan.
+      hintLevel: chosenLevel ?? hintLevelFor(ctx.wrongAttempts ?? 0, count - 1),
+      helpChosen: chosenLevel != null,
+    };
     abortRef.current?.abort();
     const ac = new AbortController();
     abortRef.current = ac;
@@ -79,8 +98,9 @@ export default function TutorChat() {
     try {
       // Sapaan pembuka tidak perlu dikirim ke AI.
       const history = next.filter((m) => m !== GREETING);
-      const reply = await askTutor(history, context, { signal: ac.signal });
+      const { reply, stage: st } = await askTutor(history, context, { signal: ac.signal });
       setMessages((m) => [...m, { role: 'assistant', content: reply }]);
+      if (st) setStage(st);
     } catch (e) {
       if (e.name !== 'AbortError') setError('Kak Carta tidak bisa dihubungi. Cek internetmu, lalu coba lagi.');
     } finally {
@@ -113,12 +133,26 @@ export default function TutorChat() {
         <section
           id="tutor-panel"
           aria-label="Asisten belajar Kak Carta"
-          className="fixed bottom-[calc(var(--nav-h)+var(--safe-bottom)+80px)] right-3 z-30 flex max-h-[min(70vh,560px)] w-[min(400px,calc(100vw-24px))] flex-col overflow-hidden rounded-3xl border-2 border-indigo-200 bg-white shadow-2xl shadow-indigo-900/30 motion-safe:animate-fade-up"
+          className="fixed bottom-[calc(var(--nav-h)+var(--safe-bottom)+80px)] right-3 z-30 flex max-h-[min(78vh,640px)] w-[min(400px,calc(100vw-24px))] flex-col overflow-hidden rounded-3xl border-2 border-indigo-200 bg-white shadow-2xl shadow-indigo-900/30 motion-safe:animate-fade-up"
         >
-          <header className="bg-gradient-to-r from-fuchsia-600 to-indigo-600 px-4 py-3 text-white">
-            <p className="m-0 font-black">🤖 Kak Carta · Asisten Belajar</p>
-            <p className="m-0 text-xs text-indigo-100">Membimbing cara berpikir, bukan memberi jawaban.</p>
+          <header className="flex items-start gap-2 bg-gradient-to-r from-fuchsia-600 to-indigo-600 px-4 py-3 text-white">
+            <div className="min-w-0 flex-1">
+              <p className="m-0 font-black">🤖 Kak Carta · Asisten Belajar</p>
+              <p className="m-0 text-xs text-indigo-100">Membimbing cara berpikir, bukan memberi jawaban.</p>
+            </div>
+            <button
+              type="button"
+              onClick={reset}
+              disabled={messages.length < 2}
+              title="Mulai percakapan baru"
+              aria-label="Mulai percakapan baru"
+              className="flex-none cursor-pointer rounded-full border border-white/40 bg-white/10 px-2.5 py-1 text-xs font-bold text-white disabled:cursor-default disabled:opacity-40"
+            >
+              ↺ Baru
+            </button>
           </header>
+
+          <RmtStageBar stage={stage} />
 
           <ol ref={listRef} className="m-0 flex-1 space-y-2 overflow-y-auto p-3" aria-live="polite">
             {messages.map((m, i) => (
@@ -134,7 +168,7 @@ export default function TutorChat() {
           </ol>
 
           <div className="flex gap-1.5 overflow-x-auto px-3 pb-2">
-            {QUICK.map((q) => (
+            {QUICK_PROMPTS.map((q) => (
               <button
                 key={q.label}
                 type="button"
@@ -146,6 +180,8 @@ export default function TutorChat() {
               </button>
             ))}
           </div>
+
+          <HelpModePicker value={helpMode} autoLevel={autoLevel} onChange={setHelpMode} disabled={busy} />
 
           <form
             className="flex gap-2 border-t border-slate-200 p-3"

@@ -56,6 +56,10 @@ export const hintLevelFor = (wrongAttempts = 0, helpRequests = 0) =>
 
 /* ---------- Panggilan ke backend ---------- */
 
+/**
+ * Kirim percakapan + konteks soal ke backend (kunci API DeepSeek/Gemini ada di server, bukan di sini).
+ * → { reply: string, stage: {id, name, total} | null }
+ */
 export async function askTutor(messages, context, { signal } = {}) {
   if (!tutorReady()) throw new Error('not-configured');
   const res = await fetch(`${TUTOR_URL}/chat`, {
@@ -66,5 +70,5 @@ export async function askTutor(messages, context, { signal } = {}) {
   });
   const data = await res.json().catch(() => ({}));
   if (!res.ok) throw new Error(data.error || `HTTP ${res.status}`);
-  return data.reply;
+  return { reply: data.reply, stage: data.stage ?? null };
 }
