@@ -1,0 +1,5 @@
+# Contoh kunci untuk uji coba LOKAL backend (npx wrangler dev).
+# Salin jadi file ".dev.vars" lalu isi. File .dev.vars TIDAK BOLEH di-upload ke GitHub.
+# Untuk server online, pakai: npx wrangler secret put NAMA_KUNCI
+DEEPSEEK_API_KEY=
+GEMINI_API_KEY=

@@ -7,14 +7,16 @@ compatibility_date = "2026-11-01"
 binding = "AI"
 
 [vars]
+# Urutan penyedia AI. Yang kuncinya belum diisi otomatis dilewati; kalau gagal, pindah ke berikutnya.
+#   DeepSeek  : npx wrangler secret put DEEPSEEK_API_KEY   (berbayar, kunci dari platform.deepseek.com)
+#   Gemini    : npx wrangler secret put GEMINI_API_KEY     (gratis, kunci dari aistudio.google.com)
+#   Workers AI: tanpa kunci (gratis, binding [ai] di atas)
+AI_PROVIDERS = "deepseek,gemini,workers-ai"
 # Model Gemini (gratis). Kunci disimpan sebagai secret: npx wrangler secret put GEMINI_API_KEY
 GEMINI_MODEL = "gemini-flash-lite-latest"
 # Model gratis Workers AI. Daftar model: https://developers.cloudflare.com/workers-ai/models/
 WORKERS_AI_MODEL = "@cf/meta/llama-3.3-70b-instruct-fp8-fast"
-# (Opsional, berbayar) Model DeepSeek; hanya dipakai kalau secret DEEPSEEK_API_KEY diisi.
+# Model DeepSeek (dipakai kalau secret DEEPSEEK_API_KEY diisi).
 DEEPSEEK_MODEL = "deepseek-flash"
 # Alamat yang boleh memanggil backend ini (dipisah koma).
 ALLOWED_ORIGINS = "https://sitinurjanah25.github.io,https://localhost,capacitor://localhost,http://localhost:5173,http://192.168.1.31:5173"
-
-# Mode gratis tidak butuh API key. Kalau nanti mau DeepSeek (berbayar), simpan key sebagai secret:
-#   npx wrangler secret put DEEPSEEK_API_KEY
